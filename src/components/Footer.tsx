@@ -34,8 +34,8 @@ const Footer = () => {
           ))}
         </div>
 
-        <div className="border-t border-dark-foreground/20 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex gap-6">
+        <div className="border-t border-dark-foreground/20 pt-8 flex flex-col items-center justify-center gap-4">
+          <div className="flex gap-6 justify-center">
             {["f", "in", "X", "📸", "tiktok"].map((social) => (
               <a
                 key={social}
