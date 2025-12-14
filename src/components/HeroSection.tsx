@@ -7,10 +7,10 @@ const HeroSection = () => {
       <div className="container mx-auto">
         <div className="max-w-3xl">
           <h1 className="text-5xl md:text-7xl font-black text-dark leading-tight mb-6">
-            Get Attractive on<br />Turn Instagram into clients for your physical business.
+            Get Attractive
           </h1>
           <p className="text-dark/80 text-lg mb-8">
-            We build Attraction Engines that convert random posting into DMs, bookings, and sales — without posting more for the sake of it.
+            We build Attraction Engines that Turn Instagram into clients for your physical business.
           </p>
           <Button variant="hero" size="lg">
             Get my Attraction Engine
