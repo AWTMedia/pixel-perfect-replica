@@ -5,27 +5,27 @@ const ReferralSection = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Get up to<br />
-              <span className="text-primary">R1,000 in cash</span><br />
-              for referring a<br />
-              friend.
+              Get a free<br />
+              <span className="text-primary">Attraction Audit</span><br />
+              in 24 hours.
             </h2>
+
             <p className="text-muted-foreground text-lg">
-              You've probably already told your friends about us. If you 
-              haven't, now you can get paid for spreading the word. You can 
-              keep your 50% cashback coming in forever!
+              We’ll show you exactly what to fix to turn views into DMs and bookings — profile funnel,
+              content plan, and conversion path.
             </p>
           </div>
+
           <div className="flex items-center justify-center">
             <div className="text-center">
               <p className="text-7xl md:text-8xl font-black text-primary leading-none">
-                R3.1
+                +100
               </p>
               <p className="text-4xl md:text-5xl font-bold text-foreground">
-                MILLION
+                AUDITS
               </p>
               <p className="text-muted-foreground mt-4">
-                paid in referrals... and counting
+                delivered… and counting
               </p>
             </div>
           </div>
