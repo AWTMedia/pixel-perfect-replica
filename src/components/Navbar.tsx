@@ -10,13 +10,10 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center gap-8">
           <a href="#" className="text-white/90 font-medium hover:text-white hover:opacity-80 transition-opacity">
-            Products
+            Service
           </a>
           <a href="#" className="text-white/90 font-medium hover:text-white hover:opacity-80 transition-opacity">
             About us
-          </a>
-          <a href="#" className="text-white/90 font-medium hover:text-white hover:opacity-80 transition-opacity">
-            Blog
           </a>
         </div>
 
