@@ -21,12 +21,12 @@ const PricingCards = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-background">
+    <section className="py-16 md:py-24 bg-transparent">
       <div className="container mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-white">
           The 3 Stage
         </h2>
-        <p className="text-3xl md:text-4xl font-bold text-center text-primary mb-12">
+        <p className="text-3xl md:text-4xl font-bold text-center text-white/80 mb-12">
           Instagram Attraction Engine
         </p>
 
@@ -34,7 +34,7 @@ const PricingCards = () => {
           {cards.map((card, index) => (
             <div
               key={index}
-              className="glass-purple p-6 hover:shadow-lg hover:translate-y-[-2px] transition-all cursor-pointer"
+              className="glass-purple rounded-2xl p-6 hover:shadow-lg hover:-translate-y-[2px] transition-all cursor-pointer"
             >
               <p className="text-white/70 text-sm mb-1">{card.subtitle}</p>
               <p className="text-3xl font-bold text-white">{card.price}</p>
