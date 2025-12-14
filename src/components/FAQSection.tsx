@@ -4,20 +4,20 @@ import { ChevronRight } from "lucide-react";
 const FAQSection = () => {
   const faqs = [
     {
-      question: "What insurance I cover with Naked?",
-      description: "Car, home contents, buildings, and single items like laptops, phones and more.",
+      question: "How is this different from social media management?",
+      description: "We don’t post content. We build the system behind the content so Instagram becomes a predictable acquisition channel.",
     },
     {
-      question: "How long to get insured with Naked?",
-      description: "You can get a quote and buy cover in under 90 seconds. It's that quick!",
+      question: "Do you guarantee results?",
+      description: "We guarantee the engine build (profile funnel + content system + DM → booking flow). Outcomes depend on offer, location, pricing, and execution — but the system is what makes results repeatable.",
     },
     {
-      question: "How do I claim with Naked?",
-      description: "Simply open your app, tap 'Claim', follow the steps, and you're done.",
+      question: "How long does it take?",
+      description: "Most businesses can have the full engine installed in days, then improved weekly.",
     },
     {
-      question: "Why Naked app?",
-      description: "Because we're 100% digital, we cut out the middlemen and pass the savings on to you.",
+      question: "Do you need access to our Instagram?",
+      description: "Not always. We can build done-with-you (you post) or support execution depending on your setup.",
     },
   ];
 
@@ -25,7 +25,7 @@ const FAQSection = () => {
     <section className="bg-secondary py-16 md:py-24">
       <div className="container mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-          Want to know more <span className="text-primary">about Naked?</span>
+          Want to know more <span className="text-primary">about Attract Acquisition?</span>
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
           {faqs.map((faq, index) => (
