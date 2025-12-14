@@ -7,7 +7,8 @@ const PricingCards = () => {
       price: "Attract",
     },
     {
-      title: "We install stories + DM touchpoints that build trust and move people forward.",
+      title:
+        "We install stories + DM touchpoints that build trust and move people forward.",
       subtitle: "Stage 2",
       price: "Nurture",
     },
@@ -33,11 +34,11 @@ const PricingCards = () => {
           {cards.map((card, index) => (
             <div
               key={index}
-              className="bg-secondary rounded-2xl p-6 hover:shadow-lg transition-shadow cursor-pointer"
+              className="glass-purple p-6 hover:shadow-lg hover:translate-y-[-2px] transition-all cursor-pointer"
             >
-              <p className="text-muted-foreground text-sm mb-1">{card.subtitle}</p>
-              <p className="text-3xl font-bold text-foreground">{card.price}</p>
-              <p className="text-muted-foreground text-sm mt-2 leading-relaxed">
+              <p className="text-white/70 text-sm mb-1">{card.subtitle}</p>
+              <p className="text-3xl font-bold text-white">{card.price}</p>
+              <p className="text-white/70 text-sm mt-2 leading-relaxed">
                 {card.title}
               </p>
             </div>
