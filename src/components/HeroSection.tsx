@@ -21,7 +21,7 @@ const HeroSection = () => {
                 <Star key={i} className="w-4 h-4 fill-dark text-dark" />
               ))}
             </div>
-            <span className="text-dark font-medium">Hellopeter</span>
+            <span className="text-dark font-medium">Trustpilot</span>
           </div>
         </div>
       </div>
