@@ -28,7 +28,7 @@
     --secondary: 270 100% 92%; /* #EBD7FF */
     --secondary-foreground: 222 46% 7%;
 
-    --muted: 270 60% 96%; /* soft lavender tint */
+    --muted: 270 60% 96%;
     --muted-foreground: 222 12% 45%;
 
     --accent: 267 100% 65%; /* #9D4BFF */
@@ -45,16 +45,16 @@
     --radius: 0.75rem;
 
     /* Custom brand helpers */
-    --ink: 222 46% 7%; /* #0B0F19 */
+    --ink: 222 46% 7%;
     --ink-foreground: 0 0% 100%;
-    --purple: 265 100% 48%; /* #6A00F4 */
-    --purple-soft: 270 100% 92%; /* #EBD7FF */
-    --purple-electric: 267 100% 65%; /* #9D4BFF */
+    --purple: 265 100% 48%;
+    --purple-soft: 270 100% 92%;
+    --purple-electric: 267 100% 65%;
     --gray-soft: 270 20% 97%;
   }
 
   .dark {
-    --background: 222 46% 7%; /* #0B0F19 */
+    --background: 222 46% 7%;
     --foreground: 0 0% 100%;
 
     --card: 222 38% 10%;
@@ -63,7 +63,7 @@
     --popover: 222 38% 10%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 265 100% 48%; /* #6A00F4 */
+    --primary: 265 100% 48%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 222 28% 14%;
@@ -72,7 +72,7 @@
     --muted: 222 28% 14%;
     --muted-foreground: 270 10% 70%;
 
-    --accent: 267 100% 65%; /* #9D4BFF */
+    --accent: 267 100% 65%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62% 30%;
@@ -109,26 +109,38 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
   }
 
-  /* Optional: AA-style purple glow */
   .purple-glow {
     box-shadow: 0 0 0 1px hsl(var(--border)), 0 10px 40px -12px hsl(var(--primary) / 0.35);
   }
 
-  /* Purple glass card */
+  /* ✅ Purple GLASS that stays purple even on WHITE backgrounds */
   .glass-purple {
-    background: linear-gradient(135deg, rgba(157, 75, 255, 0.18), rgba(106, 0, 244, 0.10));
-    border: 1px solid rgba(235, 215, 255, 0.22);
-    box-shadow: 0 20px 60px rgba(11, 15, 25, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    background: linear-gradient(
+      135deg,
+      rgba(106, 0, 244, 0.88) 0%,
+      rgba(157, 75, 255, 0.55) 55%,
+      rgba(235, 215, 255, 0.18) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow:
+      0 18px 50px rgba(11, 15, 25, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    border-radius: 1.25rem; /* 2xl-ish */
+    border-radius: 1.25rem;
   }
 
-  /* Slightly stronger glass for hero/nav */
   .glass-purple-strong {
-    background: linear-gradient(135deg, rgba(106, 0, 244, 0.28), rgba(157, 75, 255, 0.14));
-    border: 1px solid rgba(235, 215, 255, 0.28);
-    box-shadow: 0 24px 70px rgba(11, 15, 25, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    background: linear-gradient(
+      135deg,
+      rgba(106, 0, 244, 0.95) 0%,
+      rgba(157, 75, 255, 0.65) 60%,
+      rgba(235, 215, 255, 0.22) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow:
+      0 22px 65px rgba(11, 15, 25, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18);
     backdrop-filter: blur(22px);
     -webkit-backdrop-filter: blur(22px);
     border-radius: 1.5rem;
