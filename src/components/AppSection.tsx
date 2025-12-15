@@ -55,14 +55,12 @@ const AppSection = () => {
           <div className="flex flex-col md:flex-row items-center justify-center gap-10">
 
             <div className="bg-background border border-border rounded-3xl p-7 shadow-xl w-full max-w-[320px] md:max-w-[360px]">
-              <p className="text-xs tracking-widest text-foreground/60 mb-4">
+              <p className="text-xs tracking-widest text-foreground/60 mb-4 text-center">
                 SCAN TO BOOK A CALL
               </p>
 
-              <p className="font-black text-xl text-foreground mb-4">
-                Attract
-                <br />
-                Acquisition
+              <p className="font-black text-xl text-foreground mb-4 text-center">
+                Attract Acquisition
               </p>
 
               <div className="w-36 h-36 bg-foreground rounded-2xl flex items-center justify-center mx-auto">
