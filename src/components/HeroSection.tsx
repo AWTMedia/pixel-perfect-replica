@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 
 const HeroAndStages = () => {
+  const shouldReduceMotion = useReducedMotion();
+
   const cards = [
     {
       title:
@@ -23,6 +26,53 @@ const HeroAndStages = () => {
     },
   ];
 
+  const heroContainer = {
+    hidden: {},
+    show: {
+      transition: shouldReduceMotion
+        ? {}
+        : { staggerChildren: 0.08, delayChildren: 0.05 },
+    },
+  };
+
+  const heroItem = {
+    hidden: shouldReduceMotion
+      ? { opacity: 0 }
+      : { opacity: 0, y: 14, filter: "blur(6px)" as any },
+    show: shouldReduceMotion
+      ? { opacity: 1 }
+      : {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)" as any,
+          transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+        },
+  };
+
+  const cardsContainer = {
+    hidden: {},
+    show: {
+      transition: shouldReduceMotion
+        ? {}
+        : { staggerChildren: 0.08, delayChildren: 0.05 },
+    },
+  };
+
+  const cardItem = {
+    hidden: shouldReduceMotion
+      ? { opacity: 0 }
+      : { opacity: 0, y: 12, scale: 0.98, filter: "blur(6px)" as any },
+    show: shouldReduceMotion
+      ? { opacity: 1 }
+      : {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px)" as any,
+          transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+        },
+  };
+
   return (
     <section className="relative overflow-hidden aa-bg pt-24 md:pt-28 pb-14 md:pb-16">
       {/* Subtle depth layers */}
@@ -39,17 +89,31 @@ const HeroAndStages = () => {
 
       <div className="container mx-auto relative">
         {/* HERO */}
-        <div className="max-w-3xl">
-          <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.02] mb-6">
+        <motion.div
+          className="max-w-3xl"
+          variants={heroContainer}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.h1
+            variants={heroItem}
+            className="text-5xl md:text-7xl font-black text-white leading-[1.02] mb-6"
+          >
             Turn Instagram into clients for your physical business.
-          </h1>
+          </motion.h1>
 
-          <p className="text-white/80 text-lg md:text-xl mb-7">
+          <motion.p
+            variants={heroItem}
+            className="text-white/80 text-lg md:text-xl mb-7"
+          >
             We build Attraction Engines that convert random posting into DMs, bookings,
             and sales — without posting more for the sake of it.
-          </p>
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <motion.div
+            variants={heroItem}
+            className="flex flex-col sm:flex-row sm:items-center gap-4"
+          >
             <Button
               variant="hero"
               size="lg"
@@ -64,9 +128,12 @@ const HeroAndStages = () => {
             >
               Or DM “ATTRACT” on Instagram →
             </a>
-          </div>
+          </motion.div>
 
-          <div className="flex items-center gap-2 mt-7">
+          <motion.div
+            variants={heroItem}
+            className="flex items-center gap-2 mt-7"
+          >
             <div className="flex gap-[2px]">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-4 h-4 fill-white text-white" />
@@ -76,8 +143,8 @@ const HeroAndStages = () => {
               Trustpilot <span className="text-white/60">•</span>{" "}
               <span className="text-white/70">Rated 5/5</span>
             </span>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Divider / transition into Stage section */}
         <div className="mt-12 md:mt-14">
@@ -86,19 +153,38 @@ const HeroAndStages = () => {
 
         {/* STAGE SECTION */}
         <div className="pt-12 md:pt-14">
-          <div className="text-center mb-10 md:mb-12">
-            <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight">
+          <motion.div
+            className="text-center mb-10 md:mb-12"
+            variants={heroContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+          >
+            <motion.h2
+              variants={heroItem}
+              className="text-3xl md:text-5xl font-black text-white tracking-tight"
+            >
               Instagram Attraction Engine
-            </h2>
-            <p className="mt-3 text-white/70 text-base md:text-lg">
+            </motion.h2>
+            <motion.p
+              variants={heroItem}
+              className="mt-3 text-white/70 text-base md:text-lg"
+            >
               Attract → Nurture → Convert
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <motion.div
+            className="grid md:grid-cols-3 gap-6"
+            variants={cardsContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+          >
             {cards.map((card, index) => (
-              <div
+              <motion.div
                 key={index}
+                variants={cardItem}
                 className="glass-purple rounded-2xl p-7 border border-white/10 hover:border-white/15 hover:-translate-y-[2px] transition-all cursor-pointer"
               >
                 {/* subtle top highlight */}
@@ -109,9 +195,9 @@ const HeroAndStages = () => {
                 <p className="text-white/75 text-sm mt-3 leading-relaxed">
                   {card.title}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
