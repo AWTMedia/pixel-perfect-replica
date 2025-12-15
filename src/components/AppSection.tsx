@@ -4,14 +4,6 @@ import { Button } from "@/components/ui/button";
 const CALENDLY_URL = "https://calendly.com/attractacquisition/attract-acquisition-1-1-call";
 const INSTAGRAM_URL = "https://www.instagram.com/attractacq/";
 
-const QR_PATTERN = [
-  1, 1, 1, 0, 0,
-  1, 0, 1, 0, 1,
-  1, 1, 1, 0, 0,
-  0, 0, 1, 1, 0,
-  1, 0, 0, 1, 1,
-];
-
 const AppSection = () => {
   return (
     <motion.section
@@ -54,8 +46,8 @@ const AppSection = () => {
               viewport={{ once: true, amount: 0.35 }}
               transition={{ duration: 0.5, ease: "easeOut", delay: 0.12 }}
             >
-              Book a 15-minute call and we’ll map your Attraction Engine — profile funnel, content
-              structure, and the DM → booking flow for your business.
+              Book a 15-minute call and we’ll map your Attraction Engine — profile funnel, content structure, and the
+              DM → booking flow for your business.
             </motion.p>
 
             <motion.div
@@ -81,12 +73,7 @@ const AppSection = () => {
             >
               <motion.div whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.99 }}>
                 <Button variant="hero" size="lg" asChild>
-                  <a
-                    href={CALENDLY_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Book a call"
-                  >
+                  <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" aria-label="Book a call">
                     Book a Call
                   </a>
                 </Button>
@@ -122,15 +109,20 @@ const AppSection = () => {
               />
 
               <div className="relative bg-background border border-border rounded-3xl p-7 shadow-xl">
-                <p className="text-xs tracking-widest text-foreground/60 mb-4 text-center">
-                  SCAN TO BOOK A CALL
-                </p>
+                <p className="text-xs tracking-widest text-foreground/60 mb-4 text-center">SCAN TO BOOK A CALL</p>
 
-                <p className="font-black text-xl text-foreground mb-4 text-center">
-                  Attract Acquisition
-                </p>
+                <p className="font-black text-xl text-foreground mb-4 text-center">Attract Acquisition</p>
 
                 <div className="relative w-36 h-36 bg-foreground rounded-2xl flex items-center justify-center mx-auto overflow-hidden">
+                  {/* QR image */}
+                  <img
+                    src={`${import.meta.env.BASE_URL}qr-book-call.png`}
+                    alt="Scan to book a call"
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+
+                  {/* scan line overlay */}
                   <motion.div
                     aria-hidden
                     className="absolute inset-0 pointer-events-none"
@@ -147,15 +139,6 @@ const AppSection = () => {
                       transition={{ duration: 1.1, ease: "easeOut", delay: 0.25 }}
                     />
                   </motion.div>
-
-                  <div className="grid grid-cols-5 gap-1.5 p-2.5">
-                    {QR_PATTERN.map((v, i) => (
-                      <div
-                        key={i}
-                        className={`w-4 h-4 rounded-[3px] ${v ? "bg-background" : "bg-foreground"}`}
-                      />
-                    ))}
-                  </div>
                 </div>
 
                 <p className="text-sm text-foreground/60 mt-5 text-center">
