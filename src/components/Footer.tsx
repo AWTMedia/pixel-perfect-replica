@@ -1,10 +1,22 @@
 import { Facebook, Linkedin, Twitter, Instagram, Video } from "lucide-react";
 
 const Footer = () => {
-  const footerLinks = {
-    Resources: ["Help Centre", "Contact Us"],
-    Company: ["About Us", "Careers", "Press"],
-    Legal: ["Terms of Use", "Privacy Policy", "POPIA", "Complaints"],
+  const footerLinks: Record<string, { label: string; href: string }[]> = {
+    Resources: [
+      { label: "Help Centre", href: "/#get-attractive" },
+      { label: "Contact Us", href: "/#get-attractive" },
+    ],
+    Company: [
+      { label: "About Us", href: "/about" },
+      { label: "Careers", href: "#" },
+      { label: "Press", href: "#" },
+    ],
+    Legal: [
+      { label: "Terms of Use", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "POPIA", href: "/popia" },
+      { label: "Complaints", href: "/complaints" },
+    ],
   };
 
   const socials = [
@@ -28,7 +40,9 @@ const Footer = () => {
       <div className="container mx-auto relative">
         <div className="grid md:grid-cols-4 gap-8 mb-12">
           <div>
-            <h3 className="text-2xl font-black mb-2 text-white">Attract Acquisition</h3>
+            <a href="/" className="inline-block">
+              <h3 className="text-2xl font-black mb-2 text-white">Attract Acquisition</h3>
+            </a>
             <p className="text-sm text-white/75 max-w-xs">
               Building Attraction Engines for Physical Businesses.
             </p>
@@ -38,13 +52,13 @@ const Footer = () => {
             <div key={category}>
               <h4 className="font-semibold mb-4 text-white/85">{category}</h4>
               <ul className="space-y-2">
-                {links.map((link) => (
-                  <li key={link}>
+                {links.map((l) => (
+                  <li key={l.label}>
                     <a
-                      href="#"
+                      href={l.href}
                       className="text-white/75 hover:text-white transition-colors text-sm"
                     >
-                      {link}
+                      {l.label}
                     </a>
                   </li>
                 ))}
