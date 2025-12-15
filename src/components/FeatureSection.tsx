@@ -11,6 +11,9 @@ const METRICS = [
 ];
 
 const FeatureSection = () => {
+  const hoverCard =
+    "hover:border-white/15 hover:-translate-y-[2px] transition-all cursor-pointer";
+
   return (
     <section className="bg-background py-16 md:py-24">
       <div className="container mx-auto">
@@ -40,7 +43,9 @@ const FeatureSection = () => {
 
                   {/* Stage 1 */}
                   <div className="relative pl-12">
-                    <div className="glass-purple rounded-2xl p-6 border border-white/10">
+                    <div
+                      className={`glass-purple rounded-2xl p-6 border border-white/10 ${hoverCard}`}
+                    >
                       <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">
                         Stage 1
                       </p>
@@ -58,7 +63,9 @@ const FeatureSection = () => {
 
                   {/* Stage 2 */}
                   <div className="relative pl-12 mt-10">
-                    <div className="glass-purple rounded-2xl p-6 border border-white/10">
+                    <div
+                      className={`glass-purple rounded-2xl p-6 border border-white/10 ${hoverCard}`}
+                    >
                       <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">
                         Stage 2
                       </p>
@@ -75,7 +82,9 @@ const FeatureSection = () => {
 
                   {/* Stage 3 */}
                   <div className="relative pl-12 mt-10">
-                    <div className="glass-purple rounded-2xl p-6 border border-white/10">
+                    <div
+                      className={`glass-purple rounded-2xl p-6 border border-white/10 ${hoverCard}`}
+                    >
                       <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">
                         Stage 3
                       </p>
@@ -144,7 +153,7 @@ const FeatureSection = () => {
                   {METRICS.map((m) => (
                     <div
                       key={m.label}
-                      className="glass-purple rounded-2xl p-4 border border-white/10 flex items-center justify-between gap-4"
+                      className={`glass-purple rounded-2xl p-4 border border-white/10 flex items-center justify-between gap-4 ${hoverCard}`}
                     >
                       <div className="min-w-0">
                         <p className="text-white text-xl font-black leading-none truncate">
