@@ -1,5 +1,5 @@
-import phoneMockup1 from "@/assets/phone-mockup-1.png";
 import phoneMockup2 from "@/assets/phone-mockup-2.png";
+import { ArrowDown } from "lucide-react";
 
 const FeatureSection = () => {
   return (
@@ -10,12 +10,30 @@ const FeatureSection = () => {
           {/* Feature A */}
           <div className="px-6 md:px-12 py-14 md:py-16">
             <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="relative">
-                <img
-                  src={phoneMockup1}
-                  alt="Attract Acquisition system mockup"
-                  className="w-full max-w-md mx-auto animate-float rounded-2xl"
-                />
+              {/* REPLACED IMAGE WITH 3 GLASS DIVS + DOWN ARROWS */}
+              <div className="max-w-md mx-auto w-full">
+                <div className="glass-purple rounded-2xl p-6">
+                  <p className="text-white/70 text-sm mb-1">Stage 1</p>
+                  <p className="text-3xl font-black text-white">Attract</p>
+                </div>
+
+                <div className="flex justify-center py-4">
+                  <ArrowDown className="w-5 h-5 text-white/60" />
+                </div>
+
+                <div className="glass-purple rounded-2xl p-6">
+                  <p className="text-white/70 text-sm mb-1">Stage 2</p>
+                  <p className="text-3xl font-black text-white">Nurture</p>
+                </div>
+
+                <div className="flex justify-center py-4">
+                  <ArrowDown className="w-5 h-5 text-white/60" />
+                </div>
+
+                <div className="glass-purple rounded-2xl p-6">
+                  <p className="text-white/70 text-sm mb-1">Stage 3</p>
+                  <p className="text-3xl font-black text-white">Convert</p>
+                </div>
               </div>
 
               <div className="text-white">
@@ -39,7 +57,7 @@ const FeatureSection = () => {
           {/* Divider (subtle) */}
           <div className="h-px bg-white/12" />
 
-          {/* Feature B (now ALSO purple) */}
+          {/* Feature B (also purple) */}
           <div className="px-6 md:px-12 py-14 md:py-16">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="order-2 md:order-1 text-white">
