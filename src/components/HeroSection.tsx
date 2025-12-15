@@ -2,6 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
+const CALENDLY_URL = "https://calendly.com/attractacquisition/attract-acquisition-1-1-call";
+const INSTAGRAM_URL = "https://www.instagram.com/attractacq/";
+
 const HeroAndStages = () => {
   const shouldReduceMotion = useReducedMotion();
 
@@ -77,13 +80,9 @@ const HeroAndStages = () => {
     <section className="relative overflow-hidden aa-bg pt-24 md:pt-28 pb-14 md:pb-16">
       {/* Subtle depth layers */}
       <div className="pointer-events-none absolute inset-0">
-        {/* Top-left glow (headline) */}
         <div className="absolute -top-24 -left-24 h-[520px] w-[520px] rounded-full bg-white/10 blur-[90px]" />
-        {/* Bottom-right glow */}
         <div className="absolute -bottom-40 -right-32 h-[560px] w-[560px] rounded-full bg-white/8 blur-[110px]" />
-        {/* Soft vignette */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/0 to-black/25" />
-        {/* Grain/noise */}
         <div className="absolute inset-0 opacity-[0.06] mix-blend-overlay [background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22400%22 height=%22400%22 filter=%22url(%23n)%22 opacity=%220.55%22/%3E%3C/svg%3E')]" />
       </div>
 
@@ -117,13 +116,23 @@ const HeroAndStages = () => {
             <Button
               variant="hero"
               size="lg"
+              asChild
               className="shadow-[0_18px_50px_rgba(11,15,25,0.45)] hover:shadow-[0_22px_65px_rgba(157,75,255,0.22)] hover:-translate-y-[1px] transition-all"
             >
-              Get Attractive
+              <a
+                href={CALENDLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Get Attractive (Book a call)"
+              >
+                Get Attractive
+              </a>
             </Button>
 
             <a
-              href="#"
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-white/75 hover:text-white transition-colors text-sm font-medium"
             >
               Or DM “ATTRACT” on Instagram →
@@ -146,7 +155,6 @@ const HeroAndStages = () => {
           </motion.div>
         </motion.div>
 
-        {/* Divider / transition into Stage section */}
         <div className="mt-12 md:mt-14">
           <div className="h-px w-full bg-white/10" />
         </div>
@@ -187,9 +195,7 @@ const HeroAndStages = () => {
                 variants={cardItem}
                 className="glass-purple rounded-2xl p-7 border border-white/10 hover:border-white/15 hover:-translate-y-[2px] transition-all cursor-pointer"
               >
-                {/* subtle top highlight */}
                 <div className="h-[3px] w-10 rounded-full bg-gradient-to-r from-white/35 to-white/0 mb-5" />
-
                 <p className="text-white/70 text-sm mb-1">{card.subtitle}</p>
                 <p className="text-3xl font-black text-white">{card.price}</p>
                 <p className="text-white/75 text-sm mt-3 leading-relaxed">
