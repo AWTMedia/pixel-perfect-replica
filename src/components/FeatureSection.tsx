@@ -12,7 +12,7 @@ const METRICS = [
 
 const FeatureSection = () => {
   return (
-    <section className="bg-background py-16 md:py-24">
+    <section className="bg-background py-16 md:py-24 text-foreground">
       <div className="container mx-auto">
         {/* ONE unified “curved box” (WHITE base) that contains BOTH features */}
         <div className="bg-background rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-border shadow-sm">
@@ -21,31 +21,31 @@ const FeatureSection = () => {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               {/* 3 GLASS DIVS + DOWN ARROWS */}
               <div className="max-w-md mx-auto w-full">
-                <div className="glass-purple rounded-2xl p-6">
+                <div className="glass-purple p-6">
                   <p className="text-white/70 text-sm mb-1">Stage 1</p>
                   <p className="text-3xl font-black text-white">Attract</p>
                 </div>
 
                 <div className="flex justify-center py-4">
-                  <ArrowDown className="w-5 h-5 text-muted-foreground" />
+                  <ArrowDown className="w-5 h-5 text-foreground/30" />
                 </div>
 
-                <div className="glass-purple rounded-2xl p-6">
+                <div className="glass-purple p-6">
                   <p className="text-white/70 text-sm mb-1">Stage 2</p>
                   <p className="text-3xl font-black text-white">Nurture</p>
                 </div>
 
                 <div className="flex justify-center py-4">
-                  <ArrowDown className="w-5 h-5 text-muted-foreground" />
+                  <ArrowDown className="w-5 h-5 text-foreground/30" />
                 </div>
 
-                <div className="glass-purple rounded-2xl p-6">
+                <div className="glass-purple p-6">
                   <p className="text-white/70 text-sm mb-1">Stage 3</p>
                   <p className="text-3xl font-black text-white">Convert</p>
                 </div>
               </div>
 
-              <div className="text-foreground">
+              <div>
                 <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight">
                   Build a system
                   <br />
@@ -55,9 +55,9 @@ const FeatureSection = () => {
                 </h2>
 
                 <p className="text-muted-foreground text-lg leading-relaxed max-w-xl">
-                  Most agencies add volume. We build the infrastructure behind your content:
-                  profile funnel, weekly content structure, and a DM → booking flow — so Instagram
-                  becomes predictable.
+                  Most agencies add volume. We build the infrastructure behind your content: profile
+                  funnel, weekly content structure, and a DM → booking flow — so Instagram becomes
+                  predictable.
                 </p>
               </div>
             </div>
@@ -70,7 +70,7 @@ const FeatureSection = () => {
           <div className="px-6 md:px-12 py-14 md:py-16">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="order-2 md:order-1">
-                <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight text-foreground">
+                <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight">
                   Know what’s working
                   <br />
                   <span className="text-primary">in real time</span>
@@ -84,20 +84,26 @@ const FeatureSection = () => {
                 </p>
               </div>
 
-              {/* RIGHT SIDE: 7 ROW CARDS (GLASS PURPLE), BASE SECTION IS WHITE */}
+              {/* RIGHT SIDE: 7 ROW CARDS (GLASS PURPLE) */}
               <div className="order-1 md:order-2 max-w-md mx-auto w-full">
                 <div className="grid grid-cols-1 gap-3">
                   {METRICS.map((m) => (
                     <div
                       key={m.label}
-                      className="glass-purple rounded-2xl p-4 border border-white/10 flex items-center justify-between gap-4"
+                      className="glass-purple p-4 flex items-center justify-between gap-4"
                     >
-                      <div>
-                        <p className="text-white text-xl font-black leading-none">{m.value}</p>
-                        <p className="text-white/80 text-[11px] mt-2 leading-snug">{m.label}</p>
+                      <div className="min-w-0">
+                        <p className="text-white text-xl font-black leading-none truncate">
+                          {m.value}
+                        </p>
+                        <p className="text-white/80 text-[11px] mt-2 leading-snug truncate">
+                          {m.label}
+                        </p>
                       </div>
 
-                      <p className="text-white/55 text-[10px] text-right">{m.sub}</p>
+                      <p className="text-white/55 text-[10px] text-right whitespace-nowrap">
+                        {m.sub}
+                      </p>
                     </div>
                   ))}
                 </div>
