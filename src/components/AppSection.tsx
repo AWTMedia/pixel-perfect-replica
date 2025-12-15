@@ -53,11 +53,6 @@ const AppSection = () => {
 
           {/* RIGHT */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-10">
-            <img
-              src={phoneMockup3}
-              alt="Attract Acquisition call booking mockup"
-              className="w-72 md:w-80 lg:w-[340px] rounded-3xl shadow-xl"
-            />
 
             <div className="bg-background border border-border rounded-3xl p-7 shadow-xl w-[240px]">
               <p className="text-xs tracking-widest text-foreground/60 mb-4">
@@ -87,9 +82,6 @@ const AppSection = () => {
                 booking link
               </p>
 
-              <p className="text-[11px] text-foreground/50 mt-2 text-center">
-                Replace with real QR when live
-              </p>
             </div>
           </div>
         </div>
