@@ -1,4 +1,6 @@
+// About.tsx
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2, Sparkles, Workflow, Target } from "lucide-react";
@@ -150,12 +152,14 @@ const AboutPage = () => {
                 </motion.p>
 
                 <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-4">
+                  {/* ✅ Connected to services page (SPA navigation) */}
                   <Button variant="hero" size="lg" asChild>
-                    <a href="/services" aria-label="View services">
+                    <Link to="/services" aria-label="View services">
                       View services <ArrowRight className="ml-2 h-4 w-4" />
-                    </a>
+                    </Link>
                   </Button>
 
+                  {/* ✅ Linked to Instagram */}
                   <a
                     href={INSTAGRAM_URL}
                     target="_blank"
@@ -301,7 +305,6 @@ const AboutPage = () => {
                       A simple 3-stage system that turns attention into clients — every week.
                     </motion.p>
 
-                    {/* (Optional but useful) add a direct booking CTA here */}
                     <motion.div variants={fadeUp} className="mt-6 flex flex-wrap items-center gap-4">
                       <Button variant="hero" size="lg" asChild>
                         <a
@@ -399,14 +402,16 @@ const AboutPage = () => {
               viewport={{ once: true, amount: 0.3 }}
               variants={stagger}
             >
+              {/* ✅ Connected to services page (SPA navigation) */}
               <motion.div variants={fadeUp}>
                 <Button variant="hero" size="lg" asChild>
-                  <a href="/services" aria-label="View services">
+                  <Link to="/services" aria-label="See services">
                     See services
-                  </a>
+                  </Link>
                 </Button>
               </motion.div>
 
+              {/* ✅ Linked to Instagram */}
               <motion.a
                 variants={fadeUp}
                 href={INSTAGRAM_URL}
