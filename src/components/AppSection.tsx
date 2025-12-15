@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
+const CALENDLY_URL = "https://calendly.com/attractacquisition/attract-acquisition-1-1-call";
+const INSTAGRAM_URL = "https://www.instagram.com/attractacq/";
+
 const QR_PATTERN = [
   1, 1, 1, 0, 0,
   1, 0, 1, 0, 1,
@@ -78,14 +81,21 @@ const AppSection = () => {
             >
               <motion.div whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.99 }}>
                 <Button variant="hero" size="lg" asChild>
-                  <a href="#" aria-label="Book a call">
+                  <a
+                    href={CALENDLY_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Book a call"
+                  >
                     Book a Call
                   </a>
                 </Button>
               </motion.div>
 
               <a
-                href="#"
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-foreground/80 hover:text-foreground transition-colors font-medium"
               >
                 Or DM “ATTRACT” on Instagram
@@ -102,7 +112,6 @@ const AppSection = () => {
               viewport={{ once: true, amount: 0.35 }}
               transition={{ duration: 0.55, ease: "easeOut" }}
             >
-              {/* one-time glow pulse behind card */}
               <motion.div
                 aria-hidden
                 className="absolute -inset-6 rounded-[2.5rem] bg-primary/20 blur-2xl"
@@ -122,7 +131,6 @@ const AppSection = () => {
                 </p>
 
                 <div className="relative w-36 h-36 bg-foreground rounded-2xl flex items-center justify-center mx-auto overflow-hidden">
-                  {/* optional: scan line */}
                   <motion.div
                     aria-hidden
                     className="absolute inset-0 pointer-events-none"
@@ -144,9 +152,7 @@ const AppSection = () => {
                     {QR_PATTERN.map((v, i) => (
                       <div
                         key={i}
-                        className={`w-4 h-4 rounded-[3px] ${
-                          v ? "bg-background" : "bg-foreground"
-                        }`}
+                        className={`w-4 h-4 rounded-[3px] ${v ? "bg-background" : "bg-foreground"}`}
                       />
                     ))}
                   </div>
@@ -157,6 +163,18 @@ const AppSection = () => {
                   <br />
                   booking link
                 </p>
+
+                {/* Optional: make the card itself clickable */}
+                <div className="mt-6 text-center">
+                  <a
+                    href={CALENDLY_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-semibold text-primary hover:opacity-90 transition-opacity"
+                  >
+                    Open booking link →
+                  </a>
+                </div>
               </div>
             </motion.div>
           </div>
