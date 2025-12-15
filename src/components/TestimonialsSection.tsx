@@ -87,7 +87,8 @@ const TestimonialsSection = () => {
       variants={sectionIn}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.3 }}
+      // later trigger on scroll (was 0.3)
+      viewport={{ once: true, amount: 0.45 }}
     >
       <div className="container mx-auto">
         <div className="text-center mb-12">
@@ -104,7 +105,7 @@ const TestimonialsSection = () => {
               variants={headlineItem}
               custom={1}
             >
-              Getting Attractive
+              {" "}Getting Attractive
             </motion.span>
           </h2>
 
