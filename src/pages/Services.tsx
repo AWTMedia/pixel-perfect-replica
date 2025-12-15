@@ -1,6 +1,16 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, X, CalendarClock, Wrench, Rocket, Repeat, ChevronRight } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  X,
+  CalendarClock,
+  Wrench,
+  Rocket,
+  Repeat,
+  ChevronRight,
+} from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 
 const depthLayers = (
@@ -22,6 +32,86 @@ const stagger = {
   show: { transition: { staggerChildren: 0.1 } },
 };
 
+// -----------------------------
+// Scroll-storytelling helpers (like Features metrics)
+// -----------------------------
+function clamp01(v: number) {
+  return Math.max(0, Math.min(1, v));
+}
+
+function useSpedProgress(progress: MotionValue<number>, speed: number) {
+  return useTransform(progress, (v) => clamp01(v * speed));
+}
+
+type ScrollListItem = {
+  key: string;
+  label: string;
+};
+
+function ScrollList({
+  items,
+  progress,
+  icon,
+  iconTone = "primary",
+  className = "",
+}: {
+  items: ScrollListItem[];
+  progress: MotionValue<number>;
+  icon: "check" | "x";
+  iconTone?: "primary" | "muted";
+  className?: string;
+}) {
+  return (
+    <motion.div className={`grid gap-3 ${className}`}>
+      {items.map((it, idx) => {
+        const n = items.length;
+        const start = idx / n;
+        const end = Math.min(1, start + 0.22);
+
+        const x = useTransform(progress, [start, end], [42, 0]);
+        const opacity = useTransform(progress, [start, end], [0, 1]);
+        const scale = useTransform(progress, [start, end], [0.985, 1]);
+
+        const Icon =
+          icon === "check"
+            ? (props: any) => (
+                <Check
+                  {...props}
+                  className={[
+                    "h-5 w-5",
+                    iconTone === "primary" ? "text-primary" : "text-foreground/50",
+                    props?.className || "",
+                  ].join(" ")}
+                />
+              )
+            : (props: any) => (
+                <X
+                  {...props}
+                  className={[
+                    "h-5 w-5",
+                    iconTone === "primary" ? "text-primary" : "text-foreground/50",
+                    props?.className || "",
+                  ].join(" ")}
+                />
+              );
+
+        return (
+          <motion.div
+            key={it.key}
+            className="bg-background rounded-2xl p-4 border border-border/60 flex items-center gap-3"
+            style={{ x, opacity, scale }}
+            whileHover={{ y: -3, scale: 1.01 }}
+            transition={{ type: "spring", stiffness: 260, damping: 18 }}
+          >
+            <Icon />
+            <p className="text-foreground/85 font-medium">{it.label}</p>
+          </motion.div>
+        );
+      })}
+    </motion.div>
+  );
+}
+
 const ServicesPage = () => {
   const deliverables = [
     { title: "Profile funnel rebuild", desc: "Bio, highlights, pinned posts — engineered for action." },
@@ -39,8 +129,21 @@ const ServicesPage = () => {
     { icon: Repeat, title: "Iterate (weekly)", desc: "Track → improve → compound." },
   ];
 
-  const forWho = ["Gyms & studios", "Clinics & practices", "Salons & aesthetics", "Home services", "Local brands", "Physical businesses with capacity"];
-  const notFor = ["People who want “viral only”", "No capacity to take leads", "No offer / no pricing clarity", "Unwilling to execute weekly"];
+  const forWho = [
+    "Gyms & studios",
+    "Clinics & practices",
+    "Salons & aesthetics",
+    "Home services",
+    "Local brands",
+    "Physical businesses with capacity",
+  ];
+
+  const notFor = [
+    "People who want “viral only”",
+    "No capacity to take leads",
+    "No offer / no pricing clarity",
+    "Unwilling to execute weekly",
+  ];
 
   const faqs = [
     {
@@ -61,6 +164,26 @@ const ServicesPage = () => {
     },
   ];
 
+  // -----------------------------
+  // WHO IT'S FOR scroll controller
+  // - First: left column items animate in
+  // - Then: right column items animate in
+  // -----------------------------
+  const whoRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress: whoRaw } = useScroll({
+    target: whoRef,
+    offset: ["start 0.85", "end 0.25"],
+  });
+
+  const whoProgress = useSpedProgress(whoRaw, 1.6);
+
+  // Split the progress so left finishes first, right starts after
+  const leftProgress = useTransform(whoProgress, [0, 0.55], [0, 1]);
+  const rightProgress = useTransform(whoProgress, [0.45, 1], [0, 1]);
+
+  const forWhoItems: ScrollListItem[] = forWho.map((label) => ({ key: `for-${label}`, label }));
+  const notForItems: ScrollListItem[] = notFor.map((label) => ({ key: `not-${label}`, label }));
+
   return (
     <PageLayout>
       <div className="bg-background">
@@ -68,7 +191,12 @@ const ServicesPage = () => {
         <section className="py-16 md:py-24">
           <div className="container mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }} variants={stagger}>
+              <motion.div
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.35 }}
+                variants={stagger}
+              >
                 <motion.p variants={fadeUp} className="text-sm font-semibold text-muted-foreground">
                   Services
                 </motion.p>
@@ -82,8 +210,12 @@ const ServicesPage = () => {
                   <span className="text-primary">Attraction Engine.</span>
                 </motion.h1>
 
-                <motion.p variants={fadeUp} className="mt-5 text-lg text-muted-foreground leading-relaxed max-w-xl">
-                  We turn Instagram attention into qualified DMs, bookings, and clients — with a repeatable weekly system.
+                <motion.p
+                  variants={fadeUp}
+                  className="mt-5 text-lg text-muted-foreground leading-relaxed max-w-xl"
+                >
+                  We turn Instagram attention into qualified DMs, bookings, and clients — with a repeatable weekly
+                  system.
                 </motion.p>
 
                 <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-4">
@@ -127,7 +259,11 @@ const ServicesPage = () => {
                         { t: "Nurture", d: "Stories + DM touchpoints" },
                         { t: "Convert", d: "DM → booking → sale" },
                       ].map((x) => (
-                        <motion.div key={x.t} variants={fadeUp} className="glass-purple rounded-2xl p-6 border border-white/10">
+                        <motion.div
+                          key={x.t}
+                          variants={fadeUp}
+                          className="glass-purple rounded-2xl p-6 border border-white/10"
+                        >
                           <p className="text-white text-2xl font-black">{x.t}</p>
                           <p className="text-white/70 text-sm mt-2">{x.d}</p>
                         </motion.div>
@@ -143,11 +279,19 @@ const ServicesPage = () => {
         {/* DELIVERABLES */}
         <section className="py-16 md:py-24 bg-secondary">
           <div className="container mx-auto">
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={stagger}>
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={stagger}
+            >
               <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-black text-foreground text-center">
                 What you get
               </motion.h2>
-              <motion.p variants={fadeUp} className="mt-3 text-center text-foreground/70 max-w-2xl mx-auto leading-relaxed">
+              <motion.p
+                variants={fadeUp}
+                className="mt-3 text-center text-foreground/70 max-w-2xl mx-auto leading-relaxed"
+              >
                 Concrete deliverables that build a predictable acquisition channel.
               </motion.p>
             </motion.div>
@@ -221,44 +365,50 @@ const ServicesPage = () => {
         </section>
 
         {/* WHO IT'S FOR */}
-        <section className="py-16 md:py-24 bg-secondary">
+        <section className="py-16 md:py-24 bg-secondary" ref={whoRef}>
           <div className="container mx-auto">
             <div className="grid lg:grid-cols-2 gap-10 items-start">
-              <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={stagger}>
-                <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-black text-foreground">
-                  Who this is for
-                </motion.h2>
-                <motion.p variants={fadeUp} className="mt-3 text-foreground/70 leading-relaxed max-w-xl">
-                  If you’re a physical business and you want Instagram to become predictable — this is built for you.
-                </motion.p>
-
-                <motion.div variants={fadeUp} className="mt-6 grid gap-3">
-                  {forWho.map((x) => (
-                    <div key={x} className="bg-background rounded-2xl p-4 border border-border/60 flex items-center gap-3">
-                      <Check className="h-5 w-5 text-primary" />
-                      <p className="text-foreground/85 font-medium">{x}</p>
-                    </div>
-                  ))}
+              <div>
+                <motion.div
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.3 }}
+                  variants={stagger}
+                >
+                  <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-black text-foreground">
+                    Who this is for
+                  </motion.h2>
+                  <motion.p variants={fadeUp} className="mt-3 text-foreground/70 leading-relaxed max-w-xl">
+                    If you’re a physical business and you want Instagram to become predictable — this is built for you.
+                  </motion.p>
                 </motion.div>
-              </motion.div>
 
-              <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={stagger}>
-                <motion.h3 variants={fadeUp} className="text-2xl font-black text-foreground">
-                  Not for
-                </motion.h3>
-                <motion.p variants={fadeUp} className="mt-3 text-foreground/70 leading-relaxed max-w-xl">
-                  This only works if you can take leads and execute weekly.
-                </motion.p>
+                {/* Scroll-stagger list (LEFT FIRST) */}
+                <div className="mt-6">
+                  <ScrollList items={forWhoItems} progress={leftProgress} icon="check" iconTone="primary" />
+                </div>
+              </div>
 
-                <motion.div variants={fadeUp} className="mt-6 grid gap-3">
-                  {notFor.map((x) => (
-                    <div key={x} className="bg-background rounded-2xl p-4 border border-border/60 flex items-center gap-3">
-                      <X className="h-5 w-5 text-foreground/50" />
-                      <p className="text-foreground/80 font-medium">{x}</p>
-                    </div>
-                  ))}
+              <div>
+                <motion.div
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.3 }}
+                  variants={stagger}
+                >
+                  <motion.h3 variants={fadeUp} className="text-2xl font-black text-foreground">
+                    Not for
+                  </motion.h3>
+                  <motion.p variants={fadeUp} className="mt-3 text-foreground/70 leading-relaxed max-w-xl">
+                    This only works if you can take leads and execute weekly.
+                  </motion.p>
                 </motion.div>
-              </motion.div>
+
+                {/* Scroll-stagger list (RIGHT AFTER) */}
+                <div className="mt-6">
+                  <ScrollList items={notForItems} progress={rightProgress} icon="x" iconTone="muted" />
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -266,7 +416,13 @@ const ServicesPage = () => {
         {/* FAQ */}
         <section className="py-16 md:py-24 bg-background">
           <div className="container mx-auto">
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={stagger} className="text-center">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={stagger}
+              className="text-center"
+            >
               <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-black text-foreground">
                 FAQ
               </motion.h2>
@@ -306,7 +462,12 @@ const ServicesPage = () => {
             <div className="rounded-[2rem] md:rounded-[2.5rem] overflow-hidden aa-bg relative">
               {depthLayers}
               <div className="relative px-6 md:px-12 py-14 md:py-16 text-center">
-                <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={stagger}>
+                <motion.div
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.3 }}
+                  variants={stagger}
+                >
                   <motion.p variants={fadeUp} className="text-white/70 font-semibold">
                     Get Attractive™
                   </motion.p>
@@ -314,8 +475,8 @@ const ServicesPage = () => {
                     It starts with a call.
                   </motion.h2>
                   <motion.p variants={fadeUp} className="mt-4 text-white/80 text-lg max-w-2xl mx-auto leading-relaxed">
-                    Book a 15-minute call and we’ll map your Attraction Engine — profile funnel, content structure,
-                    and the DM → booking flow for your business.
+                    Book a 15-minute call and we’ll map your Attraction Engine — profile funnel, content structure, and
+                    the DM → booking flow for your business.
                   </motion.p>
 
                   <motion.div variants={fadeUp} className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
