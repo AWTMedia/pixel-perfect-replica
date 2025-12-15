@@ -1,6 +1,10 @@
 import { Facebook, Linkedin, Twitter, Instagram, Video } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const footerLinks: Record<string, { label: string; href: string }[]> = {
     Resources: [
       { label: "Help Centre", href: "/#get-attractive" },
@@ -27,6 +31,28 @@ const Footer = () => {
     { label: "TikTok", href: "#", icon: Video },
   ];
 
+  const handleHashNav = (href: string) => {
+    // supports "/#get-attractive" from any route
+    const hash = href.split("#")[1];
+    if (!hash) return;
+
+    if (location.pathname !== "/") {
+      navigate(`/#${hash}`);
+      // wait a tick for Index to mount, then scroll
+      requestAnimationFrame(() => {
+        const el = document.getElementById(hash);
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      return;
+    }
+
+    // already on home
+    requestAnimationFrame(() => {
+      const el = document.getElementById(hash);
+      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
   return (
     <footer className="relative overflow-hidden aa-bg text-white py-12 md:py-16">
       {/* Hero-style depth layers */}
@@ -40,9 +66,9 @@ const Footer = () => {
       <div className="container mx-auto relative">
         <div className="grid md:grid-cols-4 gap-8 mb-12">
           <div>
-            <a href="/" className="inline-block">
+            <Link to="/" className="inline-block">
               <h3 className="text-2xl font-black mb-2 text-white">Attract Acquisition</h3>
-            </a>
+            </Link>
             <p className="text-sm text-white/75 max-w-xs">
               Building Attraction Engines for Physical Businesses.
             </p>
@@ -52,16 +78,39 @@ const Footer = () => {
             <div key={category}>
               <h4 className="font-semibold mb-4 text-white/85">{category}</h4>
               <ul className="space-y-2">
-                {links.map((l) => (
-                  <li key={l.label}>
-                    <a
-                      href={l.href}
-                      className="text-white/75 hover:text-white transition-colors text-sm"
-                    >
-                      {l.label}
-                    </a>
-                  </li>
-                ))}
+                {links.map((l) => {
+                  const isHash = l.href.startsWith("/#");
+                  const isInternal =
+                    l.href.startsWith("/") && !isHash && l.href !== "/";
+
+                  return (
+                    <li key={l.label}>
+                      {isHash ? (
+                        <button
+                          type="button"
+                          onClick={() => handleHashNav(l.href)}
+                          className="text-white/75 hover:text-white transition-colors text-sm text-left"
+                        >
+                          {l.label}
+                        </button>
+                      ) : isInternal ? (
+                        <Link
+                          to={l.href}
+                          className="text-white/75 hover:text-white transition-colors text-sm"
+                        >
+                          {l.label}
+                        </Link>
+                      ) : (
+                        <a
+                          href={l.href}
+                          className="text-white/75 hover:text-white transition-colors text-sm"
+                        >
+                          {l.label}
+                        </a>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
