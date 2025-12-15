@@ -1,5 +1,42 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+
+function CountUp({
+  to,
+  duration = 900, // ms
+  start = 0,
+  startWhen = true,
+}: {
+  to: number;
+  duration?: number;
+  start?: number;
+  startWhen?: boolean;
+}) {
+  const [value, setValue] = useState(start);
+
+  useEffect(() => {
+    if (!startWhen) return;
+
+    let raf = 0;
+    const t0 = performance.now();
+
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - t0) / duration);
+      // easeOutCubic
+      const eased = 1 - Math.pow(1 - p, 3);
+      const next = Math.round(start + (to - start) * eased);
+      setValue(next);
+
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [to, duration, start, startWhen]);
+
+  return <>{value}</>;
+}
 
 const ReferralSection = () => {
   return (
@@ -91,7 +128,7 @@ const ReferralSection = () => {
                 viewport={{ once: true, amount: 0.35 }}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
               >
-                +100
+                +<CountUp to={100} duration={900} />
               </motion.p>
 
               <motion.p
