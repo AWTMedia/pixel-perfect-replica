@@ -1,11 +1,10 @@
+// src/components/Navbar.tsx
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [minimized, setMinimized] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setMinimized(window.scrollY > 48);
@@ -13,24 +12,6 @@ const Navbar = () => {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const goToGetAttractive = () => {
-    const id = "get-attractive";
-
-    if (location.pathname !== "/") {
-      navigate(`/#${id}`);
-      requestAnimationFrame(() => {
-        const el = document.getElementById(id);
-        el?.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-      return;
-    }
-
-    requestAnimationFrame(() => {
-      const el = document.getElementById(id);
-      el?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  };
 
   return (
     <>
@@ -46,6 +27,7 @@ const Navbar = () => {
           ].join(" ")}
         >
           <div className="glass-purple-strong rounded-2xl px-5 md:px-6 py-3 flex items-center justify-between border border-white/10">
+            {/* ✅ Brand goes back to landing */}
             <Link to="/" className="text-xl md:text-2xl font-bold text-white">
               Attract Acquisition
             </Link>
@@ -66,8 +48,11 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center gap-4">
-              <Button variant="dark" size="sm" onClick={goToGetAttractive}>
-                Get Attractive
+              <Button variant="dark" size="sm" asChild>
+                {/* keep anchor for in-page section */}
+                <a href="/#get-attractive" aria-label="Get Attractive">
+                  Get Attractive
+                </a>
               </Button>
 
               <a
@@ -92,8 +77,10 @@ const Navbar = () => {
         ].join(" ")}
       >
         <div className="rounded-2xl px-5 md:px-6 py-3 bg-transparent">
-          <Button variant="dark" size="sm" onClick={goToGetAttractive}>
-            Get Attractive
+          <Button variant="dark" size="sm" asChild>
+            <a href="/#get-attractive" aria-label="Get Attractive">
+              Get Attractive
+            </a>
           </Button>
         </div>
       </div>
