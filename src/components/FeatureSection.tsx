@@ -78,10 +78,10 @@ const FeatureSection = () => {
   const hoverCard = "hover:border-white/15 transition-all cursor-pointer";
 
   // Make animations complete earlier:
-  // - Feature A: ~1.2x sooner
-  // - Feature B: ~1.6x sooner
-  const ENGINE_SPEED = 1.2;
-  const METRICS_SPEED = 1.6;
+  // - Feature A (left stack): 1.4x sooner
+  // - Feature B (right metrics): 1.8x sooner
+  const ENGINE_SPEED = 1.4;
+  const METRICS_SPEED = 1.8;
 
   // -----------------------------
   // Feature A (Engine) scroll-linked
@@ -93,7 +93,6 @@ const FeatureSection = () => {
   });
 
   const engineProgress = useSpedProgress(engineProgressRaw, ENGINE_SPEED);
-
   const pathScaleY = useTransform(engineProgress, [0, 1], [0, 1]);
 
   const s0 = useStageAnim(engineProgress, 0);
