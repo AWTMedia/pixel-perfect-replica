@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2, Sparkles, Workflow, Target } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
@@ -22,9 +23,64 @@ const stagger = {
   show: { transition: { staggerChildren: 0.1 } },
 };
 
+// -----------------------------
+// Scroll-storytelling helpers (like Features metrics)
+// -----------------------------
+function clamp01(v: number) {
+  return Math.max(0, Math.min(1, v));
+}
+
+function useSpedProgress(progress: MotionValue<number>, speed: number) {
+  return useTransform(progress, (v) => clamp01(v * speed));
+}
+
+function PillScrollStack({ items }: { items: string[] }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  const { scrollYProgress: raw } = useScroll({
+    target: ref,
+    offset: ["start 0.85", "end 0.25"],
+  });
+
+  // Finish earlier so it's “done” by mid-section
+  const progress = useSpedProgress(raw, 1.6);
+  const parallaxY = useTransform(progress, [0, 1], [10, -10]);
+
+  return (
+    <motion.div ref={ref} className="grid gap-3" style={{ y: parallaxY }}>
+      {items.map((text, idx) => {
+        const n = items.length;
+        const start = idx / n;
+        const end = Math.min(1, start + 0.22);
+
+        const x = useTransform(progress, [start, end], [42, 0]);
+        const opacity = useTransform(progress, [start, end], [0, 1]);
+        const scale = useTransform(progress, [start, end], [0.985, 1]);
+
+        return (
+          <motion.div
+            key={text}
+            className="bg-background rounded-2xl p-4 border border-border/60 flex items-center gap-3"
+            style={{ x, opacity, scale }}
+            whileHover={{ y: -3, scale: 1.01 }}
+            transition={{ type: "spring", stiffness: 260, damping: 18 }}
+          >
+            <CheckCircle2 className="h-5 w-5 text-primary" />
+            <p className="text-foreground/85 font-medium">{text}</p>
+          </motion.div>
+        );
+      })}
+    </motion.div>
+  );
+}
+
 const AboutPage = () => {
   const principles = [
-    { icon: Workflow, title: "Systems > random posting", desc: "We build a weekly machine, not a content dump." },
+    {
+      icon: Workflow,
+      title: "Systems > random posting",
+      desc: "We build a weekly machine, not a content dump.",
+    },
     { icon: Target, title: "Pipeline > likes", desc: "DMs, bookings, and clients — tracked." },
     { icon: Sparkles, title: "Proof > promises", desc: "Simple infrastructure that compounds." },
   ];
@@ -207,24 +263,8 @@ const AboutPage = () => {
                 </motion.p>
               </motion.div>
 
-              <motion.div
-                className="grid gap-3"
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, amount: 0.25 }}
-                variants={stagger}
-              >
-                {pillars.map((p) => (
-                  <motion.div
-                    key={p}
-                    variants={fadeUp}
-                    className="bg-background rounded-2xl p-4 border border-border/60 flex items-center gap-3"
-                  >
-                    <CheckCircle2 className="h-5 w-5 text-primary" />
-                    <p className="text-foreground/85 font-medium">{p}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
+              {/* Right side scroll-storytelling pills */}
+              <PillScrollStack items={pillars} />
             </div>
           </div>
         </section>
@@ -313,7 +353,11 @@ const AboutPage = () => {
               variants={stagger}
             >
               {expectations.map((e) => (
-                <motion.div key={e} variants={fadeUp} className="bg-background rounded-2xl p-5 border border-border/60">
+                <motion.div
+                  key={e}
+                  variants={fadeUp}
+                  className="bg-background rounded-2xl p-5 border border-border/60"
+                >
                   <div className="flex items-start gap-3">
                     <CheckCircle2 className="h-5 w-5 text-primary mt-0.5" />
                     <p className="text-foreground/85 font-medium leading-relaxed">{e}</p>
