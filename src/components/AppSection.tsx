@@ -54,7 +54,7 @@ const AppSection = () => {
           {/* RIGHT */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-10">
 
-            <div className="bg-background border border-border rounded-3xl p-7 shadow-xl w-[240px]">
+            <div className="bg-background border border-border rounded-3xl p-7 shadow-xl w-full max-w-[320px] md:max-w-[360px]">
               <p className="text-xs tracking-widest text-foreground/60 mb-4">
                 SCAN TO BOOK A CALL
               </p>
