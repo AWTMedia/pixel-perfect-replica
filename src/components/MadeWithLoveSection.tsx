@@ -2,6 +2,9 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 
+const CALENDLY_URL = "https://calendly.com/attractacquisition/attract-acquisition-1-1-call";
+const INSTAGRAM_URL = "https://www.instagram.com/attractacq/";
+
 const MadeWithLoveSection = () => {
   return (
     <motion.section
@@ -13,7 +16,6 @@ const MadeWithLoveSection = () => {
     >
       {/* Depth layers */}
       <div className="pointer-events-none absolute inset-0">
-        {/* subtle drift */}
         <motion.div
           className="absolute -top-24 -left-24 h-[520px] w-[520px] rounded-full bg-white/10 blur-[90px]"
           initial={{ x: 0, y: 0 }}
@@ -51,7 +53,6 @@ const MadeWithLoveSection = () => {
             Built to Convert
           </motion.span>
 
-          {/* one-time heart pulse */}
           <motion.span
             initial={{ scale: 1, opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -90,13 +91,23 @@ const MadeWithLoveSection = () => {
         >
           <motion.div whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.99 }}>
             <Button variant="hero" size="lg" asChild>
-              <a href="#" aria-label="Book a call">
+              <a
+                href={CALENDLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Book a call"
+              >
                 Book a Call
               </a>
             </Button>
           </motion.div>
 
-          <a href="#" className="text-white/85 hover:text-white transition-colors font-medium">
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/85 hover:text-white transition-colors font-medium"
+          >
             Or DM “ATTRACT” on Instagram
           </a>
         </motion.div>
