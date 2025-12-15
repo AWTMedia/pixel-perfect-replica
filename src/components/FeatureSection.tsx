@@ -4,59 +4,64 @@ import phoneMockup2 from "@/assets/phone-mockup-2.png";
 const FeatureSection = () => {
   return (
     <>
-      {/* Option B — System > content */}
-      <section className="bg-dark py-16 md:py-24 overflow-hidden">
+      {/* Feature 1 */}
+      <section className="py-16 md:py-24 overflow-hidden bg-transparent">
         <div className="container mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="relative">
               <img
                 src={phoneMockup1}
-                alt="Instagram system mockup"
+                alt="Attraction system visual"
                 className="w-full max-w-md mx-auto animate-float"
               />
             </div>
 
-            <div className="text-dark-foreground">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Build a system<br />
-                <span className="text-primary">not just content</span><br />
+            <div className="text-white">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                Build a system
+                <br />
+                <span className="text-white/25 font-black">
+                  not just content
+                </span>
+                <br />
                 that gets clients
               </h2>
 
-              <p className="text-dark-foreground/70 text-lg">
-                Most agencies add volume. We build the infrastructure behind your content:
-                <span className="text-dark-foreground"> profile funnel</span>,{" "}
-                <span className="text-dark-foreground">weekly content structure</span>, and a{" "}
-                <span className="text-dark-foreground">DM → booking flow</span> — so Instagram becomes predictable.
+              <p className="text-white/80 text-lg leading-relaxed max-w-xl">
+                Most agencies add volume. We build the infrastructure behind your
+                content: profile funnel, weekly content structure, and a DM → booking
+                flow — so Instagram becomes predictable.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Option C — Trackable results */}
-      <section className="bg-background py-16 md:py-24 overflow-hidden">
+      {/* Feature 2 */}
+      <section className="py-16 md:py-24 overflow-hidden bg-transparent">
         <div className="container mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="text-foreground order-2 md:order-1">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Know what’s working<br />
-                <span className="text-primary">in real time</span><br />
+            <div className="text-white order-2 md:order-1">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                Know what’s working
+                <br />
+                <span className="text-white/25 font-black">
+                  in real time
+                </span>
+                <br />
                 and scale it
               </h2>
 
-              <p className="text-muted-foreground text-lg">
-                We add tracking and a simple pipeline so you can see what turns into{" "}
-                <span className="text-foreground">DMs</span>,{" "}
-                <span className="text-foreground">bookings</span>, and{" "}
-                <span className="text-foreground">clients</span> — then double down on what’s proven.
+              <p className="text-white/80 text-lg leading-relaxed max-w-xl">
+                We add tracking and a simple pipeline so you can see what turns into
+                DMs, bookings, and clients — then double down on what’s proven.
               </p>
             </div>
 
             <div className="relative order-1 md:order-2">
               <img
                 src={phoneMockup2}
-                alt="Performance tracking mockup"
+                alt="Tracking and conversion visual"
                 className="w-full max-w-md mx-auto animate-float"
                 style={{ animationDelay: "0.5s" }}
               />
