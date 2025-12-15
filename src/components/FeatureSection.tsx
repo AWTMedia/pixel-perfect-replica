@@ -15,28 +15,31 @@ const FeatureSection = () => {
     <section className="bg-background py-16 md:py-24">
       <div className="container mx-auto">
         {/* WHITE section, PURPLE inner curved box */}
-        <div className="relative rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-primary">
-          {/* depth */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full bg-white/10 blur-3xl" />
-            <div className="absolute -bottom-48 -right-48 h-[560px] w-[560px] rounded-full bg-black/20 blur-3xl" />
-            <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-black/0 to-black/10" />
+        <div className="relative rounded-[2rem] md:rounded-[2.5rem] overflow-hidden aa-bg">
+          {/* Hero-style depth layers (same as hero/made-with-love/footer) */}
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute -top-24 -left-24 h-[520px] w-[520px] rounded-full bg-white/10 blur-[90px]" />
+            <div className="absolute -bottom-40 -right-32 h-[560px] w-[560px] rounded-full bg-white/8 blur-[110px]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/0 to-black/25" />
+            <div className="absolute inset-0 opacity-[0.06] mix-blend-overlay [background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22400%22 height=%22400%22 filter=%22url(%23n)%22 opacity=%220.55%22/%3E%3C/svg%3E')]" />
           </div>
 
           {/* Feature A */}
           <div className="relative px-6 md:px-12 py-14 md:py-16">
             <div className="grid md:grid-cols-2 gap-12 items-center">
-              {/* 3-stage stack (DETAILED) */}
+              {/* 3-stage stack (fixed line + arrow spacing) */}
               <div className="max-w-md mx-auto w-full">
                 <div className="mb-4">
                   <p className="text-white/70 text-sm font-medium">3-stage flow</p>
                   <p className="text-white text-lg font-bold">The engine</p>
                 </div>
 
-                <div className="relative pl-6">
-                  <div className="absolute left-[11px] top-3 bottom-3 w-px bg-white/15" />
+                <div className="relative">
+                  {/* Vertical line centered with arrows */}
+                  <div className="absolute left-[18px] top-6 bottom-6 w-px bg-white/15" />
 
-                  <div className="relative">
+                  {/* Stage 1 */}
+                  <div className="relative pl-12">
                     <div className="glass-purple rounded-2xl p-6 border border-white/10">
                       <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">
                         Stage 1
@@ -46,12 +49,15 @@ const FeatureSection = () => {
                         Profile + content structure
                       </p>
                     </div>
-                    <div className="absolute left-[-2px] top-[68px] -translate-x-1/2">
+
+                    {/* Arrow sits on the line, between cards */}
+                    <div className="absolute left-[18px] -bottom-5 -translate-x-1/2">
                       <ArrowDown className="w-4 h-4 text-white/35" />
                     </div>
                   </div>
 
-                  <div className="relative mt-6">
+                  {/* Stage 2 */}
+                  <div className="relative pl-12 mt-10">
                     <div className="glass-purple rounded-2xl p-6 border border-white/10">
                       <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">
                         Stage 2
@@ -61,12 +67,14 @@ const FeatureSection = () => {
                         Stories + DM touchpoints
                       </p>
                     </div>
-                    <div className="absolute left-[-2px] top-[68px] -translate-x-1/2">
+
+                    <div className="absolute left-[18px] -bottom-5 -translate-x-1/2">
                       <ArrowDown className="w-4 h-4 text-white/35" />
                     </div>
                   </div>
 
-                  <div className="relative mt-6">
+                  {/* Stage 3 */}
+                  <div className="relative pl-12 mt-10">
                     <div className="glass-purple rounded-2xl p-6 border border-white/10">
                       <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">
                         Stage 3
