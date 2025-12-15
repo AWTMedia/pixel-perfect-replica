@@ -12,12 +12,19 @@ const METRICS = [
 
 const FeatureSection = () => {
   return (
-    <section className="bg-background py-16 md:py-24 text-foreground">
+    <section className="bg-transparent py-16 md:py-24">
       <div className="container mx-auto">
-        {/* ONE unified “curved box” (WHITE base) that contains BOTH features */}
-        <div className="bg-background rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-border shadow-sm">
+        {/* ONE unified “curved box” (PURPLE base) that contains BOTH features */}
+        <div className="relative bg-primary rounded-[2rem] md:rounded-[2.5rem] overflow-hidden">
+          {/* Hero-style depth */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full bg-white/10 blur-3xl" />
+            <div className="absolute -bottom-48 -right-48 h-[560px] w-[560px] rounded-full bg-black/20 blur-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-black/0 to-black/10" />
+          </div>
+
           {/* Feature A */}
-          <div className="px-6 md:px-12 py-14 md:py-16">
+          <div className="relative px-6 md:px-12 py-14 md:py-16">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               {/* 3 GLASS DIVS + DOWN ARROWS */}
               <div className="max-w-md mx-auto w-full">
@@ -27,7 +34,7 @@ const FeatureSection = () => {
                 </div>
 
                 <div className="flex justify-center py-4">
-                  <ArrowDown className="w-5 h-5 text-foreground/30" />
+                  <ArrowDown className="w-5 h-5 text-white/55" />
                 </div>
 
                 <div className="glass-purple p-6">
@@ -36,7 +43,7 @@ const FeatureSection = () => {
                 </div>
 
                 <div className="flex justify-center py-4">
-                  <ArrowDown className="w-5 h-5 text-foreground/30" />
+                  <ArrowDown className="w-5 h-5 text-white/55" />
                 </div>
 
                 <div className="glass-purple p-6">
@@ -45,40 +52,40 @@ const FeatureSection = () => {
                 </div>
               </div>
 
-              <div>
+              <div className="text-white">
                 <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight">
                   Build a system
                   <br />
-                  <span className="text-muted-foreground">not just content</span>
+                  <span className="text-white/70">not just content</span>
                   <br />
                   that gets clients
                 </h2>
 
-                <p className="text-muted-foreground text-lg leading-relaxed max-w-xl">
-                  Most agencies add volume. We build the infrastructure behind your content: profile
-                  funnel, weekly content structure, and a DM → booking flow — so Instagram becomes
-                  predictable.
+                <p className="text-white/85 text-lg leading-relaxed max-w-xl">
+                  Most agencies add volume. We build the infrastructure behind your content:
+                  profile funnel, weekly content structure, and a DM → booking flow — so Instagram
+                  becomes predictable.
                 </p>
               </div>
             </div>
           </div>
 
           {/* Divider */}
-          <div className="h-px bg-border" />
+          <div className="relative h-px bg-white/12" />
 
           {/* Feature B */}
-          <div className="px-6 md:px-12 py-14 md:py-16">
+          <div className="relative px-6 md:px-12 py-14 md:py-16">
             <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="order-2 md:order-1">
+              <div className="order-2 md:order-1 text-white">
                 <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight">
                   Know what’s working
                   <br />
-                  <span className="text-primary">in real time</span>
+                  <span className="text-white/70">in real time</span>
                   <br />
                   and scale it
                 </h2>
 
-                <p className="text-muted-foreground text-lg leading-relaxed max-w-xl">
+                <p className="text-white/85 text-lg leading-relaxed max-w-xl">
                   We add tracking and a simple pipeline so you can see what turns into DMs,
                   bookings, and clients — then double down on what’s proven.
                 </p>
@@ -111,8 +118,8 @@ const FeatureSection = () => {
             </div>
           </div>
 
-          {/* subtle bottom depth */}
-          <div className="h-10 bg-gradient-to-b from-transparent to-black/5" />
+          {/* Bottom depth */}
+          <div className="relative h-10 bg-gradient-to-b from-transparent to-black/10" />
         </div>
       </div>
     </section>
