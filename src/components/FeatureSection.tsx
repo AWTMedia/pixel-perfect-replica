@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 
 const METRICS = [
@@ -12,44 +12,93 @@ const METRICS = [
   { value: "$241,670", label: "Cash Collected", sub: "Revenue tracked" },
 ];
 
+function clamp01(v: number) {
+  return Math.max(0, Math.min(1, v));
+}
+
+// Speed-up helper: completes animation earlier in the section
+function useSpedProgress(progress: MotionValue<number>, speed: number) {
+  return useTransform(progress, (v) => clamp01(v * speed));
+}
+
+function useStageAnim(progress: MotionValue<number>, i: number) {
+  const total = 3;
+  const start = i / total;
+  const mid = start + 0.18;
+  const end = start + 0.33;
+
+  const y = useTransform(progress, [start, mid], [14, 0]);
+  const opacity = useTransform(progress, [start, mid], [0.45, 1]);
+  const scale = useTransform(progress, [start, mid], [0.985, 1]);
+
+  // subtle “active” emphasis that follows the current stage band
+  const glow = useTransform(
+    progress,
+    [start, start + 0.05, end - 0.05, end],
+    [0, 1, 1, 0]
+  );
+
+  return { y, opacity, scale, glow };
+}
+
+type MetricRowProps = {
+  m: (typeof METRICS)[number];
+  idx: number;
+  n: number;
+  progress: MotionValue<number>;
+  hoverCard: string;
+};
+
+function MetricRow({ m, idx, n, progress, hoverCard }: MetricRowProps) {
+  const start = idx / n;
+  const end = Math.min(1, start + 0.22);
+
+  const x = useTransform(progress, [start, end], [42, 0]);
+  const opacity = useTransform(progress, [start, end], [0, 1]);
+  const scale = useTransform(progress, [start, end], [0.985, 1]);
+
+  return (
+    <motion.div
+      className={`glass-purple rounded-2xl p-4 border border-white/10 flex items-center justify-between gap-4 ${hoverCard}`}
+      style={{ x, opacity, scale }}
+      whileHover={{ y: -3, scale: 1.01 }}
+      transition={{ type: "spring", stiffness: 260, damping: 18 }}
+    >
+      <div className="min-w-0">
+        <p className="text-white text-xl font-black leading-none truncate">{m.value}</p>
+        <p className="text-white/80 text-[11px] mt-2 leading-snug truncate">{m.label}</p>
+      </div>
+
+      <p className="text-white/55 text-[10px] text-right whitespace-nowrap">{m.sub}</p>
+    </motion.div>
+  );
+}
+
 const FeatureSection = () => {
-  const hoverCard =
-    "hover:border-white/15 transition-all cursor-pointer";
+  const hoverCard = "hover:border-white/15 transition-all cursor-pointer";
+
+  // Make animations complete earlier:
+  // - Feature A: ~1.2x sooner
+  // - Feature B: ~1.6x sooner
+  const ENGINE_SPEED = 1.2;
+  const METRICS_SPEED = 1.6;
 
   // -----------------------------
   // Feature A (Engine) scroll-linked
   // -----------------------------
   const engineRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress: engineProgress } = useScroll({
+  const { scrollYProgress: engineProgressRaw } = useScroll({
     target: engineRef,
-    // 0 when section starts entering, 1 when leaving
     offset: ["start 0.85", "end 0.25"],
   });
 
+  const engineProgress = useSpedProgress(engineProgressRaw, ENGINE_SPEED);
+
   const pathScaleY = useTransform(engineProgress, [0, 1], [0, 1]);
 
-  const stageAnim = (i: number) => {
-    const start = i / 3;
-    const mid = start + 0.18;
-    const end = start + 0.33;
-
-    const y = useTransform(engineProgress, [start, mid], [14, 0]);
-    const opacity = useTransform(engineProgress, [start, mid], [0.45, 1]);
-    const scale = useTransform(engineProgress, [start, mid], [0.985, 1]);
-
-    // subtle “active” emphasis that follows the current stage band
-    const glow = useTransform(
-      engineProgress,
-      [start, start + 0.05, end - 0.05, end],
-      [0, 1, 1, 0]
-    );
-
-    return { y, opacity, scale, glow };
-  };
-
-  const s0 = stageAnim(0);
-  const s1 = stageAnim(1);
-  const s2 = stageAnim(2);
+  const s0 = useStageAnim(engineProgress, 0);
+  const s1 = useStageAnim(engineProgress, 1);
+  const s2 = useStageAnim(engineProgress, 2);
 
   // Right headline reveal (once, staggered)
   const headlineWrap = {
@@ -65,11 +114,12 @@ const FeatureSection = () => {
   // Feature B (Metrics) scroll storytelling
   // -----------------------------
   const metricsRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress: metricsProgress } = useScroll({
+  const { scrollYProgress: metricsProgressRaw } = useScroll({
     target: metricsRef,
     offset: ["start 0.85", "end 0.25"],
   });
 
+  const metricsProgress = useSpedProgress(metricsProgressRaw, METRICS_SPEED);
   const stackParallaxY = useTransform(metricsProgress, [0, 1], [10, -10]);
 
   return (
@@ -112,25 +162,19 @@ const FeatureSection = () => {
                       whileHover={{ y: -4, scale: 1.01 }}
                       transition={{ type: "spring", stiffness: 260, damping: 18 }}
                     >
-                      <div className="pointer-events-none absolute inset-0 rounded-2xl"
-                        style={{
-                          opacity: 0,
-                        }}
-                      />
                       <motion.div
                         className="pointer-events-none absolute -inset-[1px] rounded-2xl"
                         style={{
                           opacity: s0.glow,
-                          boxShadow: "0 0 0 1px rgba(255,255,255,0.14), 0 20px 60px rgba(0,0,0,0.25)",
+                          boxShadow:
+                            "0 0 0 1px rgba(255,255,255,0.14), 0 20px 60px rgba(0,0,0,0.25)",
                         }}
                       />
                       <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">
                         Stage 1
                       </p>
                       <p className="text-3xl font-black text-white">Attract</p>
-                      <p className="text-white/75 text-sm mt-2">
-                        Profile + content structure
-                      </p>
+                      <p className="text-white/75 text-sm mt-2">Profile + content structure</p>
                     </motion.div>
 
                     <div className="absolute left-[18px] -bottom-5 -translate-x-1/2">
@@ -150,16 +194,15 @@ const FeatureSection = () => {
                         className="pointer-events-none absolute -inset-[1px] rounded-2xl"
                         style={{
                           opacity: s1.glow,
-                          boxShadow: "0 0 0 1px rgba(255,255,255,0.14), 0 20px 60px rgba(0,0,0,0.25)",
+                          boxShadow:
+                            "0 0 0 1px rgba(255,255,255,0.14), 0 20px 60px rgba(0,0,0,0.25)",
                         }}
                       />
                       <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">
                         Stage 2
                       </p>
                       <p className="text-3xl font-black text-white">Nurture</p>
-                      <p className="text-white/75 text-sm mt-2">
-                        Stories + DM touchpoints
-                      </p>
+                      <p className="text-white/75 text-sm mt-2">Stories + DM touchpoints</p>
                     </motion.div>
 
                     <div className="absolute left-[18px] -bottom-5 -translate-x-1/2">
@@ -179,16 +222,15 @@ const FeatureSection = () => {
                         className="pointer-events-none absolute -inset-[1px] rounded-2xl"
                         style={{
                           opacity: s2.glow,
-                          boxShadow: "0 0 0 1px rgba(255,255,255,0.14), 0 20px 60px rgba(0,0,0,0.25)",
+                          boxShadow:
+                            "0 0 0 1px rgba(255,255,255,0.14), 0 20px 60px rgba(0,0,0,0.25)",
                         }}
                       />
                       <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">
                         Stage 3
                       </p>
                       <p className="text-3xl font-black text-white">Convert</p>
-                      <p className="text-white/75 text-sm mt-2">
-                        DM → booking → sale
-                      </p>
+                      <p className="text-white/75 text-sm mt-2">DM → booking → sale</p>
                     </motion.div>
                   </div>
                 </div>
@@ -273,38 +315,16 @@ const FeatureSection = () => {
                 style={{ y: stackParallaxY }}
               >
                 <div className="grid grid-cols-1 gap-3">
-                  {METRICS.map((m, idx) => {
-                    const n = METRICS.length;
-                    const start = idx / n;
-                    const end = Math.min(1, start + 0.22);
-
-                    const x = useTransform(metricsProgress, [start, end], [42, 0]);
-                    const opacity = useTransform(metricsProgress, [start, end], [0, 1]);
-                    const scale = useTransform(metricsProgress, [start, end], [0.985, 1]);
-
-                    return (
-                      <motion.div
-                        key={m.label}
-                        className={`glass-purple rounded-2xl p-4 border border-white/10 flex items-center justify-between gap-4 ${hoverCard}`}
-                        style={{ x, opacity, scale }}
-                        whileHover={{ y: -3, scale: 1.01 }}
-                        transition={{ type: "spring", stiffness: 260, damping: 18 }}
-                      >
-                        <div className="min-w-0">
-                          <p className="text-white text-xl font-black leading-none truncate">
-                            {m.value}
-                          </p>
-                          <p className="text-white/80 text-[11px] mt-2 leading-snug truncate">
-                            {m.label}
-                          </p>
-                        </div>
-
-                        <p className="text-white/55 text-[10px] text-right whitespace-nowrap">
-                          {m.sub}
-                        </p>
-                      </motion.div>
-                    );
-                  })}
+                  {METRICS.map((m, idx) => (
+                    <MetricRow
+                      key={m.label}
+                      m={m}
+                      idx={idx}
+                      n={METRICS.length}
+                      progress={metricsProgress}
+                      hoverCard={hoverCard}
+                    />
+                  ))}
                 </div>
               </motion.div>
             </div>
