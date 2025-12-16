@@ -32,11 +32,7 @@ function useStageAnim(progress: MotionValue<number>, i: number) {
   const scale = useTransform(progress, [start, mid], [0.985, 1]);
 
   // subtle “active” emphasis that follows the current stage band
-  const glow = useTransform(
-    progress,
-    [start, start + 0.05, end - 0.05, end],
-    [0, 1, 1, 0]
-  );
+  const glow = useTransform(progress, [start, start + 0.05, end - 0.05, end], [0, 1, 1, 0]);
 
   return { y, opacity, scale, glow };
 }
@@ -59,17 +55,27 @@ function MetricRow({ m, idx, n, progress, hoverCard }: MetricRowProps) {
 
   return (
     <motion.div
-      className={`glass-purple rounded-2xl p-4 border border-white/10 flex items-center justify-between gap-4 ${hoverCard}`}
+      className={[
+        // Mobile: tighter + stacked content for 2-col grid
+        "glass-purple rounded-2xl border border-white/10",
+        "p-3 md:p-4",
+        "flex flex-col md:flex-row md:items-center md:justify-between",
+        "gap-2 md:gap-4",
+        hoverCard,
+      ].join(" ")}
       style={{ x, opacity, scale }}
       whileHover={{ y: -3, scale: 1.01 }}
       transition={{ type: "spring", stiffness: 260, damping: 18 }}
     >
       <div className="min-w-0">
-        <p className="text-white text-xl font-black leading-none truncate">{m.value}</p>
-        <p className="text-white/80 text-[11px] mt-2 leading-snug truncate">{m.label}</p>
+        <p className="text-white text-[18px] md:text-xl font-black leading-none truncate">{m.value}</p>
+        <p className="text-white/80 text-[11px] md:text-[11px] mt-2 leading-snug truncate">{m.label}</p>
       </div>
 
-      <p className="text-white/55 text-[10px] text-right whitespace-nowrap">{m.sub}</p>
+      {/* Mobile: move the sub under content (avoid cramped right alignment) */}
+      <p className="text-white/60 text-[10px] md:text-[10px] md:text-right md:whitespace-nowrap md:mt-0">
+        {m.sub}
+      </p>
     </motion.div>
   );
 }
@@ -135,11 +141,11 @@ const FeatureSection = () => {
           </div>
 
           {/* Feature A: Engine */}
-          <div ref={engineRef} className="relative px-6 md:px-12 py-14 md:py-16">
+          <div ref={engineRef} className="relative px-6 md:px-12 py-12 md:py-16">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               {/* 3-stage stack */}
               <div className="max-w-md mx-auto w-full">
-                <div className="mb-4">
+                <div className="mb-4 text-center md:text-left">
                   <p className="text-white/70 text-sm font-medium">3-stage flow</p>
                   <p className="text-white text-lg font-bold">The engine</p>
                 </div>
@@ -147,10 +153,7 @@ const FeatureSection = () => {
                 <div className="relative">
                   {/* Vertical path (draw on scroll) */}
                   <div className="absolute left-[18px] top-6 bottom-6 w-px bg-white/15 overflow-hidden">
-                    <motion.div
-                      className="absolute inset-0 bg-white/55 origin-top"
-                      style={{ scaleY: pathScaleY }}
-                    />
+                    <motion.div className="absolute inset-0 bg-white/55 origin-top" style={{ scaleY: pathScaleY }} />
                   </div>
 
                   {/* Stage 1 */}
@@ -165,13 +168,10 @@ const FeatureSection = () => {
                         className="pointer-events-none absolute -inset-[1px] rounded-2xl"
                         style={{
                           opacity: s0.glow,
-                          boxShadow:
-                            "0 0 0 1px rgba(255,255,255,0.14), 0 20px 60px rgba(0,0,0,0.25)",
+                          boxShadow: "0 0 0 1px rgba(255,255,255,0.14), 0 20px 60px rgba(0,0,0,0.25)",
                         }}
                       />
-                      <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">
-                        Stage 1
-                      </p>
+                      <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">Stage 1</p>
                       <p className="text-3xl font-black text-white">Attract</p>
                       <p className="text-white/75 text-sm mt-2">Profile + content structure</p>
                     </motion.div>
@@ -193,13 +193,10 @@ const FeatureSection = () => {
                         className="pointer-events-none absolute -inset-[1px] rounded-2xl"
                         style={{
                           opacity: s1.glow,
-                          boxShadow:
-                            "0 0 0 1px rgba(255,255,255,0.14), 0 20px 60px rgba(0,0,0,0.25)",
+                          boxShadow: "0 0 0 1px rgba(255,255,255,0.14), 0 20px 60px rgba(0,0,0,0.25)",
                         }}
                       />
-                      <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">
-                        Stage 2
-                      </p>
+                      <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">Stage 2</p>
                       <p className="text-3xl font-black text-white">Nurture</p>
                       <p className="text-white/75 text-sm mt-2">Stories + DM touchpoints</p>
                     </motion.div>
@@ -221,20 +218,17 @@ const FeatureSection = () => {
                         className="pointer-events-none absolute -inset-[1px] rounded-2xl"
                         style={{
                           opacity: s2.glow,
-                          boxShadow:
-                            "0 0 0 1px rgba(255,255,255,0.14), 0 20px 60px rgba(0,0,0,0.25)",
+                          boxShadow: "0 0 0 1px rgba(255,255,255,0.14), 0 20px 60px rgba(0,0,0,0.25)",
                         }}
                       />
-                      <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">
-                        Stage 3
-                      </p>
+                      <p className="text-[11px] uppercase tracking-wide text-white/60 mb-2">Stage 3</p>
                       <p className="text-3xl font-black text-white">Convert</p>
                       <p className="text-white/75 text-sm mt-2">DM → booking → sale</p>
                     </motion.div>
                   </div>
                 </div>
 
-                <div className="mt-6">
+                <div className="mt-6 text-center md:text-left">
                   <a
                     href="#"
                     className="text-white/85 hover:text-white font-semibold transition-colors inline-flex items-center gap-2"
@@ -245,14 +239,9 @@ const FeatureSection = () => {
               </div>
 
               {/* Feature A copy */}
-              <div className="text-white">
-                <motion.div
-                  variants={headlineWrap}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, amount: 0.35 }}
-                >
-                  <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight">
+              <div className="text-white text-center md:text-left">
+                <motion.div variants={headlineWrap} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }}>
+                  <h2 className="text-[clamp(38px,9vw,56px)] md:text-5xl font-black mb-5 md:mb-6 leading-[1.02] md:leading-tight">
                     <motion.span variants={headlineLine} className="block">
                       Build a system
                     </motion.span>
@@ -266,15 +255,14 @@ const FeatureSection = () => {
                 </motion.div>
 
                 <motion.p
-                  className="text-white/85 text-lg leading-relaxed max-w-xl"
+                  className="text-white/85 text-base md:text-lg leading-relaxed max-w-[44ch] md:max-w-xl mx-auto md:mx-0"
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.35 }}
                   transition={{ duration: 0.5, ease: "easeOut", delay: 0.08 }}
                 >
-                  Most agencies add volume. We build the infrastructure behind your content:
-                  profile funnel, weekly content structure, and a DM → booking flow — so Instagram
-                  becomes predictable.
+                  Most agencies add volume. We build the infrastructure behind your content: profile funnel, weekly content
+                  structure, and a DM → booking flow — so Instagram becomes predictable.
                 </motion.p>
               </div>
             </div>
@@ -284,17 +272,17 @@ const FeatureSection = () => {
           <div className="relative h-px bg-white/12" />
 
           {/* Feature B: Metrics */}
-          <div ref={metricsRef} className="relative px-6 md:px-12 py-14 md:py-16">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div ref={metricsRef} className="relative px-6 md:px-12 py-12 md:py-16">
+            <div className="grid md:grid-cols-2 gap-10 md:gap-12 items-center">
               {/* left copy (fade-up once) */}
               <motion.div
-                className="order-2 md:order-1 text-white"
+                className="order-2 md:order-1 text-white text-center md:text-left"
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.35 }}
                 transition={{ duration: 0.55, ease: "easeOut" }}
               >
-                <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight">
+                <h2 className="text-[clamp(38px,9vw,56px)] md:text-5xl font-black mb-5 md:mb-6 leading-[1.02] md:leading-tight">
                   Know what’s working
                   <br />
                   <span className="text-white/70">in real time</span>
@@ -302,27 +290,25 @@ const FeatureSection = () => {
                   and scale it
                 </h2>
 
-                <p className="text-white/85 text-lg leading-relaxed max-w-xl">
-                  We add tracking and a simple pipeline so you can see what turns into DMs,
-                  bookings, and clients — then double down on what’s proven.
+                <p className="text-white/85 text-base md:text-lg leading-relaxed max-w-[44ch] md:max-w-xl mx-auto md:mx-0">
+                  We add tracking and a simple pipeline so you can see what turns into DMs, bookings, and clients — then
+                  double down on what’s proven.
                 </p>
               </motion.div>
 
               {/* right metrics (scroll-stagger by progress) */}
+              {/* Mobile-only improvements:
+                  - 2-column grid to reduce scroll fatigue
+                  - extra top padding so floating CTA doesn't cover the first row
+                  - denser cards + stacked layout so each card reads clean in 2 cols
+              */}
               <motion.div
-                className="order-1 md:order-2 max-w-md mx-auto w-full"
+                className="order-1 md:order-2 max-w-md mx-auto w-full pt-14 md:pt-0"
                 style={{ y: stackParallaxY }}
               >
-                <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
                   {METRICS.map((m, idx) => (
-                    <MetricRow
-                      key={m.label}
-                      m={m}
-                      idx={idx}
-                      n={METRICS.length}
-                      progress={metricsProgress}
-                      hoverCard={hoverCard}
-                    />
+                    <MetricRow key={m.label} m={m} idx={idx} n={METRICS.length} progress={metricsProgress} hoverCard={hoverCard} />
                   ))}
                 </div>
               </motion.div>
