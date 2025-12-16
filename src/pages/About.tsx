@@ -125,6 +125,7 @@ const AboutPage = () => {
           <div className="container mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div
+                className="text-center lg:text-left"
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, amount: 0.35 }}
@@ -145,13 +146,16 @@ const AboutPage = () => {
 
                 <motion.p
                   variants={fadeUp}
-                  className="mt-5 text-lg text-muted-foreground leading-relaxed max-w-xl"
+                  className="mt-5 text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0"
                 >
                   Physical businesses don’t need more posts — they need a repeatable system that turns
                   attention into qualified DMs, bookings, and clients.
                 </motion.p>
 
-                <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-4">
+                <motion.div
+                  variants={fadeUp}
+                  className="mt-8 flex flex-wrap items-center gap-4 justify-center lg:justify-start"
+                >
                   {/* ✅ Connected to services page (SPA navigation) */}
                   <Button variant="hero" size="lg" asChild>
                     <Link to="/services" aria-label="View services">
@@ -284,6 +288,7 @@ const AboutPage = () => {
               <div className="relative px-6 md:px-12 py-14 md:py-16">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                   <motion.div
+                    className="text-center md:text-left"
                     initial="hidden"
                     whileInView="show"
                     viewport={{ once: true, amount: 0.3 }}
@@ -300,12 +305,15 @@ const AboutPage = () => {
                     </motion.h2>
                     <motion.p
                       variants={fadeUp}
-                      className="mt-4 text-white/80 text-lg leading-relaxed max-w-xl"
+                      className="mt-4 text-white/80 text-lg leading-relaxed max-w-xl mx-auto md:mx-0"
                     >
                       A simple 3-stage system that turns attention into clients — every week.
                     </motion.p>
 
-                    <motion.div variants={fadeUp} className="mt-6 flex flex-wrap items-center gap-4">
+                    <motion.div
+                      variants={fadeUp}
+                      className="mt-6 flex flex-wrap items-center gap-4 justify-center md:justify-start"
+                    >
                       <Button variant="hero" size="lg" asChild>
                         <a
                           href={CALENDLY_URL}
