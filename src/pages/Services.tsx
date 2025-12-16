@@ -214,6 +214,7 @@ const ServicesPage = () => {
                 whileInView="show"
                 viewport={{ once: true, amount: 0.35 }}
                 variants={stagger}
+                className="text-center lg:text-left"
               >
                 <motion.p variants={fadeUp} className="text-sm font-semibold text-muted-foreground">
                   Services
@@ -230,20 +231,18 @@ const ServicesPage = () => {
 
                 <motion.p
                   variants={fadeUp}
-                  className="mt-5 text-lg text-muted-foreground leading-relaxed max-w-xl"
+                  className="mt-5 text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0"
                 >
                   We turn Instagram attention into qualified DMs, bookings, and clients — with a repeatable weekly
                   system.
                 </motion.p>
 
-                <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-4">
+                <motion.div
+                  variants={fadeUp}
+                  className="mt-8 flex flex-col sm:flex-row sm:flex-wrap items-center justify-center lg:justify-start gap-4"
+                >
                   <Button variant="hero" size="lg" asChild>
-                    <a
-                      href={CALENDLY_URL}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="Book a call"
-                    >
+                    <a href={CALENDLY_URL} target="_blank" rel="noreferrer" aria-label="Book a call">
                       Book a Call <ArrowRight className="ml-2 h-4 w-4" />
                     </a>
                   </Button>
@@ -258,7 +257,10 @@ const ServicesPage = () => {
                   </a>
                 </motion.div>
 
-                <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-3 text-sm text-foreground/60">
+                <motion.div
+                  variants={fadeUp}
+                  className="mt-6 flex flex-wrap justify-center lg:justify-start gap-3 text-sm text-foreground/60"
+                >
                   <span>Installed in days</span>
                   <span>•</span>
                   <span>Improved weekly</span>
@@ -341,7 +343,13 @@ const ServicesPage = () => {
         {/* HOW IT WORKS */}
         <section className="py-16 md:py-24 bg-background">
           <div className="container mx-auto">
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={stagger} className="max-w-3xl">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={stagger}
+              className="max-w-3xl mx-auto lg:mx-0 text-center lg:text-left"
+            >
               <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-black text-foreground">
                 How it works
               </motion.h2>
