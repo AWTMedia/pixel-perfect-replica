@@ -82,29 +82,39 @@ const HeroAndStages = () => {
 
       <div className="container mx-auto relative">
         {/* HERO (FULL SCREEN) */}
-        {/* Use a grid so content is vertically centered, with a bottom row reserved for scroll cue */}
         <div className="min-h-[100svh] grid grid-rows-[1fr_auto]">
-          {/* Center the hero block. Add a bit of top padding to clear navbar, but keep it centered */}
-          <div className="flex items-center pt-20 md:pt-24 pb-8">
-            <motion.div className="max-w-3xl" variants={heroContainer} initial="hidden" animate="show">
+          {/* Mobile-only: tighter top padding + centered content */}
+          <div className="flex items-center pt-14 md:pt-24 pb-8">
+            <motion.div
+              className="max-w-3xl mx-auto md:mx-0 text-center md:text-left"
+              variants={heroContainer}
+              initial="hidden"
+              animate="show"
+            >
               <motion.h1
                 variants={heroItem}
-                className="text-5xl md:text-7xl font-black text-white leading-[1.02] mb-6"
+                className="text-[clamp(44px,10vw,64px)] md:text-7xl font-black text-white leading-[0.95] md:leading-[1.02] mb-5 md:mb-6"
               >
                 Turn Instagram into clients for your physical business.
               </motion.h1>
 
-              <motion.p variants={heroItem} className="text-white/80 text-lg md:text-xl mb-7">
+              <motion.p
+                variants={heroItem}
+                className="text-white/80 text-base md:text-xl mb-6 md:mb-7 max-w-[42ch] mx-auto md:mx-0"
+              >
                 We build Attraction Engines that convert random posting into DMs, bookings, and sales — without posting
                 more for the sake of it.
               </motion.p>
 
-              <motion.div variants={heroItem} className="flex flex-col sm:flex-row sm:items-center gap-4">
+              <motion.div
+                variants={heroItem}
+                className="w-full flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 items-center md:items-start"
+              >
                 <Button
                   variant="hero"
                   size="lg"
                   asChild
-                  className="shadow-[0_18px_50px_rgba(11,15,25,0.45)] hover:shadow-[0_22px_65px_rgba(157,75,255,0.22)] hover:-translate-y-[1px] transition-all"
+                  className="w-full sm:w-auto shadow-[0_18px_50px_rgba(11,15,25,0.45)] hover:shadow-[0_22px_65px_rgba(157,75,255,0.22)] hover:-translate-y-[1px] transition-all"
                 >
                   <a
                     href={CALENDLY_URL}
@@ -120,13 +130,16 @@ const HeroAndStages = () => {
                   href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/75 hover:text-white transition-colors text-sm font-medium"
+                  className="text-white/75 hover:text-white transition-colors text-sm font-medium text-center sm:text-left"
                 >
                   Or DM “ATTRACT” on Instagram →
                 </a>
               </motion.div>
 
-              <motion.div variants={heroItem} className="flex items-center gap-2 mt-7">
+              <motion.div
+                variants={heroItem}
+                className="flex items-center gap-2 mt-6 md:mt-7 justify-center md:justify-start"
+              >
                 <div className="flex gap-[2px]">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-white text-white" />
@@ -168,25 +181,27 @@ const HeroAndStages = () => {
         </div>
 
         {/* STAGE SECTION (BELOW FOLD) */}
-        {/* Reduced top padding so it reads as the next chapter, not a second hero */}
-        <section id="attraction-engine" className="pb-14 md:pb-16 pt-8 md:pt-10">
+        <section id="attraction-engine" className="pb-14 md:pb-16 pt-7 md:pt-10">
           <motion.div
-            className="text-center mb-8 md:mb-10"
+            className="text-center mb-6 sm:mb-7 md:mb-10"
             variants={heroContainer}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.25 }}
           >
-            <motion.h2 variants={heroItem} className="text-3xl md:text-5xl font-black text-white tracking-tight">
+            <motion.h2
+              variants={heroItem}
+              className="text-2xl sm:text-3xl md:text-5xl font-black text-white tracking-tight leading-[1.05] md:leading-tight"
+            >
               Instagram Attraction Engine
             </motion.h2>
-            <motion.p variants={heroItem} className="mt-3 text-white/70 text-base md:text-lg">
+            <motion.p variants={heroItem} className="mt-2 md:mt-3 text-white/70 text-sm sm:text-base md:text-lg">
               Attract → Nurture → Convert
             </motion.p>
           </motion.div>
 
           <motion.div
-            className="grid md:grid-cols-3 gap-6"
+            className="grid md:grid-cols-3 gap-4 md:gap-6"
             variants={cardsContainer}
             initial="hidden"
             whileInView="show"
@@ -196,12 +211,14 @@ const HeroAndStages = () => {
               <motion.div
                 key={index}
                 variants={cardItem}
-                className="glass-purple rounded-2xl p-7 border border-white/10 hover:border-white/15 hover:-translate-y-[2px] transition-all cursor-pointer"
+                className="glass-purple rounded-xl md:rounded-2xl p-5 md:p-7 border border-white/10 hover:border-white/15 hover:-translate-y-[2px] transition-all cursor-pointer"
               >
-                <div className="h-[3px] w-10 rounded-full bg-gradient-to-r from-white/35 to-white/0 mb-5" />
-                <p className="text-white/70 text-sm mb-1">{card.subtitle}</p>
-                <p className="text-3xl font-black text-white">{card.price}</p>
-                <p className="text-white/75 text-sm mt-3 leading-relaxed">{card.title}</p>
+                <div className="h-[3px] w-10 rounded-full bg-gradient-to-r from-white/35 to-white/0 mb-4 md:mb-5" />
+                <p className="text-white/70 text-xs sm:text-sm mb-1">{card.subtitle}</p>
+                <p className="text-2xl md:text-3xl font-black text-white">{card.price}</p>
+                <p className="text-white/70 md:text-white/75 text-sm mt-2 md:mt-3 leading-snug md:leading-relaxed">
+                  {card.title}
+                </p>
               </motion.div>
             ))}
           </motion.div>
