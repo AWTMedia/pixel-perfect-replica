@@ -32,13 +32,11 @@ const Footer = () => {
   ];
 
   const handleHashNav = (href: string) => {
-    // supports "/#get-attractive" from any route
     const hash = href.split("#")[1];
     if (!hash) return;
 
     if (location.pathname !== "/") {
       navigate(`/#${hash}`);
-      // wait a tick for Index to mount, then scroll
       requestAnimationFrame(() => {
         const el = document.getElementById(hash);
         el?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -46,7 +44,6 @@ const Footer = () => {
       return;
     }
 
-    // already on home
     requestAnimationFrame(() => {
       const el = document.getElementById(hash);
       el?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -54,7 +51,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative overflow-hidden aa-bg text-white py-12 md:py-16">
+    <footer className="relative overflow-hidden aa-bg text-white py-10 md:py-16">
       {/* Hero-style depth layers */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-24 -left-24 h-[520px] w-[520px] rounded-full bg-white/10 blur-[90px]" />
@@ -64,75 +61,78 @@ const Footer = () => {
       </div>
 
       <div className="container mx-auto relative">
-        <div className="grid md:grid-cols-4 gap-8 mb-12">
-          <div>
+        {/* MOBILE: tighter, centered, 2-col link grid */}
+        <div className="mb-10 md:mb-12">
+          <div className="text-center md:text-left">
             <Link to="/" className="inline-block">
-              <h3 className="text-2xl font-black mb-2 text-white">Attract Acquisition</h3>
+              <h3 className="text-3xl md:text-2xl font-black mb-2 text-white">Attract Acquisition</h3>
             </Link>
-            <p className="text-sm text-white/75 max-w-xs">
+            <p className="text-white/75 max-w-[32ch] mx-auto md:mx-0 text-base md:text-sm">
               Building Attraction Engines for Physical Businesses.
             </p>
           </div>
 
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h4 className="font-semibold mb-4 text-white/85">{category}</h4>
-              <ul className="space-y-2">
-                {links.map((l) => {
-                  const isHash = l.href.startsWith("/#");
-                  const isInternal =
-                    l.href.startsWith("/") && !isHash && l.href !== "/";
+          <div className="mt-8 grid gap-8 md:grid-cols-4">
+            {Object.entries(footerLinks).map(([category, links]) => (
+              <div key={category} className="text-center md:text-left">
+                <h4 className="font-semibold mb-3 text-white/85">{category}</h4>
 
-                  return (
-                    <li key={l.label}>
-                      {isHash ? (
-                        <button
-                          type="button"
-                          onClick={() => handleHashNav(l.href)}
-                          className="text-white/75 hover:text-white transition-colors text-sm text-left"
-                        >
-                          {l.label}
-                        </button>
-                      ) : isInternal ? (
-                        <Link
-                          to={l.href}
-                          className="text-white/75 hover:text-white transition-colors text-sm"
-                        >
-                          {l.label}
-                        </Link>
-                      ) : (
-                        <a
-                          href={l.href}
-                          className="text-white/75 hover:text-white transition-colors text-sm"
-                        >
-                          {l.label}
-                        </a>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
+                {/* mobile: 2 columns so it doesn’t feel endlessly tall */}
+                <ul className="space-y-2 md:space-y-2 grid grid-cols-2 gap-x-4 gap-y-2 md:block">
+                  {links.map((l) => {
+                    const isHash = l.href.startsWith("/#");
+                    const isInternal = l.href.startsWith("/") && !isHash && l.href !== "/";
+
+                    const base =
+                      "text-white/75 hover:text-white transition-colors text-sm";
+                    const mobileCenter = "justify-self-center md:justify-self-auto";
+
+                    return (
+                      <li key={l.label} className={mobileCenter}>
+                        {isHash ? (
+                          <button
+                            type="button"
+                            onClick={() => handleHashNav(l.href)}
+                            className={`${base} text-center md:text-left`}
+                          >
+                            {l.label}
+                          </button>
+                        ) : isInternal ? (
+                          <Link to={l.href} className={`${base} text-center md:text-left`}>
+                            {l.label}
+                          </Link>
+                        ) : (
+                          <a href={l.href} className={`${base} text-center md:text-left`}>
+                            {l.label}
+                          </a>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="border-t border-white/15 pt-8 flex flex-col items-center justify-center gap-4">
-          <div className="flex items-center justify-center gap-5">
+        <div className="border-t border-white/15 pt-7 md:pt-8 flex flex-col items-center justify-center gap-4">
+          {/* mobile: larger tap targets */}
+          <div className="flex items-center justify-center gap-2">
             {socials.map(({ label, href, icon: Icon }) => (
               <a
                 key={label}
                 href={href}
                 aria-label={label}
-                className="text-white/85 hover:text-white transition-colors"
+                className="text-white/85 hover:text-white transition-colors p-3 rounded-full bg-white/0 hover:bg-white/10"
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="w-6 h-6 md:w-5 md:h-5" />
               </a>
             ))}
           </div>
-        </div>
 
-        <div className="mt-8 text-center text-white/65 text-xs">
-          <p>© 2025 Attract Acquisition. All rights reserved.</p>
+          <div className="text-center text-white/65 text-xs">
+            <p>© 2025 Attract Acquisition. All rights reserved.</p>
+          </div>
         </div>
       </div>
     </footer>
