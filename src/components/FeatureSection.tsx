@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 
@@ -80,14 +80,42 @@ function MetricRow({ m, idx, n, progress, hoverCard }: MetricRowProps) {
   );
 }
 
+// Mobile-only speed-up: detect < md breakpoint (768px)
+function useIsMobileMd() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mq = window.matchMedia("(max-width: 767px)");
+    const onChange = () => setIsMobile(mq.matches);
+
+    onChange();
+
+    // Safari fallback
+    if (mq.addEventListener) mq.addEventListener("change", onChange);
+    else mq.addListener(onChange);
+
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", onChange);
+      else mq.removeListener(onChange);
+    };
+  }, []);
+
+  return isMobile;
+}
+
 const FeatureSection = () => {
   const hoverCard = "hover:border-white/15 transition-all cursor-pointer";
+  const isMobile = useIsMobileMd();
 
-  // Make animations complete earlier:
-  // - Feature A (left stack): 1.4x sooner
-  // - Feature B (right metrics): 1.8x sooner
-  const ENGINE_SPEED = 1.4;
-  const METRICS_SPEED = 1.8;
+  // Base speeds (desktop/tablet)
+  const ENGINE_SPEED_BASE = 1.4;
+  const METRICS_SPEED_BASE = 1.8;
+
+  // ✅ Mobile-only: make items appear ~1.5x sooner
+  const ENGINE_SPEED = isMobile ? ENGINE_SPEED_BASE * 1.5 : ENGINE_SPEED_BASE;
+  const METRICS_SPEED = isMobile ? METRICS_SPEED_BASE * 1.5 : METRICS_SPEED_BASE;
 
   // -----------------------------
   // Feature A (Engine) scroll-linked
@@ -297,18 +325,20 @@ const FeatureSection = () => {
               </motion.div>
 
               {/* right metrics (scroll-stagger by progress) */}
-              {/* Mobile-only improvements:
-                  - 2-column grid to reduce scroll fatigue
-                  - extra top padding so floating CTA doesn't cover the first row
-                  - denser cards + stacked layout so each card reads clean in 2 cols
-              */}
               <motion.div
                 className="order-1 md:order-2 max-w-md mx-auto w-full pt-14 md:pt-0"
                 style={{ y: stackParallaxY }}
               >
                 <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
                   {METRICS.map((m, idx) => (
-                    <MetricRow key={m.label} m={m} idx={idx} n={METRICS.length} progress={metricsProgress} hoverCard={hoverCard} />
+                    <MetricRow
+                      key={m.label}
+                      m={m}
+                      idx={idx}
+                      n={METRICS.length}
+                      progress={metricsProgress}
+                      hoverCard={hoverCard}
+                    />
                   ))}
                 </div>
               </motion.div>
