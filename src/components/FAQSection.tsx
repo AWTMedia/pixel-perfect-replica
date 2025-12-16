@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 
 const FAQSection = () => {
   const [expanded, setExpanded] = useState(false);
@@ -30,7 +30,7 @@ const FAQSection = () => {
           "Not always. We can build done-with-you (you post) or support execution depending on your setup.",
       },
 
-      // Add up to 10 total (you can edit these)
+      // up to 10 total
       {
         question: "Who is this for?",
         description:
@@ -94,20 +94,6 @@ const FAQSection = () => {
     exit: { opacity: 0, y: 8, transition: { duration: 0.2, ease: "easeOut" } },
   };
 
-  const answer = {
-    hidden: { height: 0, opacity: 0 },
-    show: {
-      height: "auto",
-      opacity: 1,
-      transition: { duration: 0.28, ease: "easeOut" },
-    },
-    exit: {
-      height: 0,
-      opacity: 0,
-      transition: { duration: 0.2, ease: "easeOut" },
-    },
-  };
-
   const onToggleExpanded = () => {
     setExpanded((v) => {
       const next = !v;
@@ -133,7 +119,6 @@ const FAQSection = () => {
           </p>
         </motion.div>
 
-        {/* CONTENT SWAP */}
         <AnimatePresence mode="wait" initial={false}>
           {!expanded ? (
             <motion.div
@@ -158,7 +143,6 @@ const FAQSection = () => {
                     {faq.description}
                   </p>
 
-                  {/* Chevron hover animation */}
                   <motion.div
                     className="inline-flex"
                     initial={false}
@@ -185,58 +169,76 @@ const FAQSection = () => {
                 animate="show"
                 className="grid gap-3"
               >
-                {faqs.slice(0, 10).map((faq, idx) => {
-                  const isOpen = openIndex === idx;
-                  return (
-                    <motion.div
-                      key={faq.question}
-                      variants={row}
-                      className="bg-background rounded-2xl border border-border/60 overflow-hidden"
-                    >
-                      <button
-                        type="button"
-                        onClick={() => setOpenIndex((v) => (v === idx ? null : idx))}
-                        className="w-full flex items-center justify-between gap-4 p-5 text-left"
-                        aria-expanded={isOpen}
+                <AnimatePresence initial={false} mode="popLayout">
+                  {faqs.slice(0, 10).map((faq, idx) => {
+                    const isOpen = openIndex === idx;
+
+                    return (
+                      <motion.div
+                        key={faq.question}
+                        variants={row}
+                        layout
+                        className="bg-background rounded-2xl border border-border/60 overflow-hidden"
+                        transition={{ type: "spring", stiffness: 260, damping: 28 }}
                       >
-                        <span className="font-bold text-foreground leading-snug">
-                          {faq.question}
-                        </span>
-
-                        <motion.span
-                          animate={{ rotate: isOpen ? 180 : 0 }}
-                          transition={{ duration: 0.18, ease: "easeOut" }}
-                          className="shrink-0"
+                        <motion.button
+                          type="button"
+                          onClick={() => setOpenIndex((v) => (v === idx ? null : idx))}
+                          className="w-full flex items-center justify-between gap-4 p-5 text-left"
+                          aria-expanded={isOpen}
+                          layout="position"
                         >
-                          <ChevronDown className="w-5 h-5 text-primary" />
-                        </motion.span>
-                      </button>
+                          <span className="font-bold text-foreground leading-snug">
+                            {faq.question}
+                          </span>
 
-                      <AnimatePresence initial={false}>
-                        {isOpen && (
-                          <motion.div
-                            key="answer"
-                            variants={answer}
-                            initial="hidden"
-                            animate="show"
-                            exit="exit"
-                            className="px-5 pb-5"
+                          <motion.span
+                            animate={{ rotate: isOpen ? 180 : 0 }}
+                            transition={{ type: "spring", stiffness: 420, damping: 30 }}
+                            className="shrink-0"
                           >
-                            <p className="text-foreground/70 text-sm leading-relaxed">
-                              {faq.description}
-                            </p>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
-                  );
-                })}
+                            <ChevronDown className="w-5 h-5 text-primary" />
+                          </motion.span>
+                        </motion.button>
+
+                        <AnimatePresence initial={false}>
+                          {isOpen && (
+                            <motion.div
+                              key="content"
+                              layout
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{
+                                height: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
+                                opacity: { duration: 0.18, ease: "easeOut" },
+                              }}
+                              style={{ overflow: "hidden" }}
+                            >
+                              {/* Padding lives inside so height animation is smoother */}
+                              <motion.div
+                                initial={{ y: -6 }}
+                                animate={{ y: 0 }}
+                                exit={{ y: -6 }}
+                                transition={{ duration: 0.2, ease: "easeOut" }}
+                                className="px-5 pb-5"
+                              >
+                                <p className="text-foreground/70 text-sm leading-relaxed">
+                                  {faq.description}
+                                </p>
+                              </motion.div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
               </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* CTA BUTTON */}
         <motion.div
           className="text-center mt-12"
           initial={{ opacity: 0, y: 10 }}
@@ -254,7 +256,6 @@ const FAQSection = () => {
             </Button>
           </motion.div>
 
-          {/* Optional secondary CTA when expanded */}
           {expanded && (
             <motion.div
               className="mt-4"
