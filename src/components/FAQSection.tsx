@@ -25,11 +25,8 @@ const FAQSection = () => {
       },
       {
         question: "Do you need access to our Instagram?",
-        description:
-          "Not always. We can build done-with-you (you post) or support execution depending on your setup.",
+        description: "Not always. We can build done-with-you (you post) or support execution depending on your setup.",
       },
-
-      // Up to 10 total (expanded view)
       {
         question: "Who is this for?",
         description:
@@ -102,6 +99,17 @@ const FAQSection = () => {
     });
   };
 
+  // Mobile preview row animation (tighter)
+  const mobileRow = {
+    hidden: { opacity: 0, y: 10 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.32, ease: "easeOut" } },
+  };
+
+  const openFromPreview = (idx: number) => {
+    setExpanded(true);
+    setOpenIndex(idx);
+  };
+
   return (
     <section className="bg-secondary py-14 md:py-24">
       <div className="container mx-auto">
@@ -111,52 +119,74 @@ const FAQSection = () => {
           viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
         >
-          <h2 className="text-3xl md:text-4xl font-black text-center mb-2 text-foreground">
-            FAQ
-          </h2>
-          <p className="text-center text-foreground/70 max-w-2xl mx-auto">
-            Quick answers before you book.
-          </p>
+          <h2 className="text-3xl md:text-4xl font-black text-center mb-2 text-foreground">FAQ</h2>
+          <p className="text-center text-foreground/70 max-w-2xl mx-auto">Quick answers before you book.</p>
         </motion.div>
 
         <AnimatePresence mode="wait" initial={false}>
           {!expanded ? (
-            <motion.div
-              key="preview"
-              className="grid gap-4 mt-10 md:mt-12 md:grid-cols-2 lg:grid-cols-4 md:gap-6"
-              variants={previewContainer}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.28 }}
-            >
-              {previewFaqs.map((faq, index) => (
-                <motion.div
-                  key={faq.question}
-                  variants={previewCard(index)}
-                  whileHover={{ y: -6, scale: 1.01 }}
-                  className="bg-background rounded-2xl p-5 md:p-6 hover:shadow-lg transition-shadow cursor-pointer group border border-border/60"
-                >
-                  {/* Mobile: smaller title + tighter spacing */}
-                  <h3 className="font-bold text-foreground mb-2 leading-snug text-[18px] md:text-base">
-                    {faq.question}
-                  </h3>
-
-                  {/* Mobile: slightly smaller body */}
-                  <p className="text-foreground/70 text-[13px] md:text-sm mb-3 md:mb-4 leading-relaxed">
-                    {faq.description}
-                  </p>
-
-                  {/* Chevron pinned to bottom-left, less visual weight on mobile */}
-                  <motion.div
-                    className="inline-flex"
-                    initial={false}
-                    whileHover={{ x: 4, rotate: 45 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
+            <motion.div key="preview" className="mt-10 md:mt-12" variants={previewContainer} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.28 }}>
+              {/* ✅ MOBILE: collapsed (question-only) */}
+              <motion.div className="grid gap-3 md:hidden" variants={previewContainer} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.28 }}>
+                {previewFaqs.map((faq, idx) => (
+                  <motion.button
+                    key={faq.question}
+                    type="button"
+                    variants={mobileRow}
+                    onClick={() => openFromPreview(idx)}
+                    className="w-full bg-background rounded-2xl border border-border/60 px-4 py-4 text-left flex items-center justify-between gap-3"
+                    aria-label={`Open FAQ: ${faq.question}`}
                   >
-                    <ChevronRight className="w-5 h-5 text-primary" />
+                    <span className="font-bold text-foreground leading-snug text-[16px]">
+                      {faq.question}
+                    </span>
+                    <span className="shrink-0">
+                      <ChevronRight className="w-5 h-5 text-primary" />
+                    </span>
+                  </motion.button>
+                ))}
+
+                {/* small hint */}
+                <p className="text-center text-foreground/60 text-xs mt-1">
+                  Tap a question to expand
+                </p>
+              </motion.div>
+
+              {/* ✅ DESKTOP/TABLET: keep your 4-card preview grid with descriptions */}
+              <motion.div
+                className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+                variants={previewContainer}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.28 }}
+              >
+                {previewFaqs.map((faq, index) => (
+                  <motion.div
+                    key={faq.question}
+                    variants={previewCard(index)}
+                    whileHover={{ y: -6, scale: 1.01 }}
+                    className="bg-background rounded-2xl p-6 hover:shadow-lg transition-shadow cursor-pointer group border border-border/60"
+                    onClick={() => openFromPreview(index)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") openFromPreview(index);
+                    }}
+                  >
+                    <h3 className="font-bold text-foreground mb-3 leading-snug">{faq.question}</h3>
+                    <p className="text-foreground/70 text-sm mb-4 leading-relaxed">{faq.description}</p>
+
+                    <motion.div
+                      className="inline-flex"
+                      initial={false}
+                      whileHover={{ x: 4, rotate: 45 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                    >
+                      <ChevronRight className="w-5 h-5 text-primary" />
+                    </motion.div>
                   </motion.div>
-                </motion.div>
-              ))}
+                ))}
+              </motion.div>
             </motion.div>
           ) : (
             <motion.div
@@ -195,7 +225,6 @@ const FAQSection = () => {
                           </motion.span>
                         </button>
 
-                        {/* Smooth reveal */}
                         <motion.div
                           className="grid"
                           initial={false}
