@@ -21,8 +21,7 @@ const FAQSection = () => {
       },
       {
         question: "How long does it take?",
-        description:
-          "Most businesses can have the full engine installed in days, then improved weekly.",
+        description: "Most businesses can have the full engine installed in days, then improved weekly.",
       },
       {
         question: "Do you need access to our Instagram?",
@@ -104,7 +103,7 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="bg-secondary py-16 md:py-24">
+    <section className="bg-secondary py-14 md:py-24">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -124,7 +123,7 @@ const FAQSection = () => {
           {!expanded ? (
             <motion.div
               key="preview"
-              className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12"
+              className="grid gap-4 mt-10 md:mt-12 md:grid-cols-2 lg:grid-cols-4 md:gap-6"
               variants={previewContainer}
               initial="hidden"
               whileInView="show"
@@ -135,15 +134,19 @@ const FAQSection = () => {
                   key={faq.question}
                   variants={previewCard(index)}
                   whileHover={{ y: -6, scale: 1.01 }}
-                  className="bg-background rounded-2xl p-6 hover:shadow-lg transition-shadow cursor-pointer group border border-border/60"
+                  className="bg-background rounded-2xl p-5 md:p-6 hover:shadow-lg transition-shadow cursor-pointer group border border-border/60"
                 >
-                  <h3 className="font-bold text-foreground mb-3 leading-snug">
+                  {/* Mobile: smaller title + tighter spacing */}
+                  <h3 className="font-bold text-foreground mb-2 leading-snug text-[18px] md:text-base">
                     {faq.question}
                   </h3>
-                  <p className="text-foreground/70 text-sm mb-4 leading-relaxed">
+
+                  {/* Mobile: slightly smaller body */}
+                  <p className="text-foreground/70 text-[13px] md:text-sm mb-3 md:mb-4 leading-relaxed">
                     {faq.description}
                   </p>
 
+                  {/* Chevron pinned to bottom-left, less visual weight on mobile */}
                   <motion.div
                     className="inline-flex"
                     initial={false}
@@ -158,18 +161,13 @@ const FAQSection = () => {
           ) : (
             <motion.div
               key="expanded"
-              className="mt-12 max-w-4xl mx-auto"
+              className="mt-10 md:mt-12 max-w-4xl mx-auto"
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
             >
-              <motion.div
-                className="grid gap-3"
-                variants={listStagger}
-                initial="hidden"
-                animate="show"
-              >
+              <motion.div className="grid gap-3" variants={listStagger} initial="hidden" animate="show">
                 <AnimatePresence initial={false}>
                   {expandedFaqs.map((faq, idx) => {
                     const isOpen = openIndex === idx;
@@ -186,9 +184,7 @@ const FAQSection = () => {
                           className="w-full flex items-center justify-between gap-4 p-5 text-left"
                           aria-expanded={isOpen}
                         >
-                          <span className="font-bold text-foreground leading-snug">
-                            {faq.question}
-                          </span>
+                          <span className="font-bold text-foreground leading-snug">{faq.question}</span>
 
                           <motion.span
                             animate={{ rotate: isOpen ? 180 : 0 }}
@@ -199,7 +195,7 @@ const FAQSection = () => {
                           </motion.span>
                         </button>
 
-                        {/* SMOOTH REVEAL: animate grid rows (0fr -> 1fr) instead of height:auto */}
+                        {/* Smooth reveal */}
                         <motion.div
                           className="grid"
                           initial={false}
@@ -214,9 +210,7 @@ const FAQSection = () => {
                         >
                           <div className="overflow-hidden">
                             <div className="px-5 pb-5">
-                              <p className="text-foreground/70 text-sm leading-relaxed">
-                                {faq.description}
-                              </p>
+                              <p className="text-foreground/70 text-sm leading-relaxed">{faq.description}</p>
                             </div>
                           </div>
                         </motion.div>
@@ -230,21 +224,18 @@ const FAQSection = () => {
         </AnimatePresence>
 
         <motion.div
-          className="text-center mt-12"
+          className="text-center mt-10 md:mt-12"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.08 }}
         >
           <motion.div whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.99 }}>
-            <Button
-              variant={expanded ? "hero" : "outline-dark"}
-              size="lg"
-              onClick={onToggleExpanded}
-            >
+            <Button variant={expanded ? "hero" : "outline-dark"} size="lg" onClick={onToggleExpanded}>
               {expanded ? "See less" : "See all answers"}
             </Button>
           </motion.div>
+
           {expanded && (
             <motion.div
               className="mt-4"
@@ -262,7 +253,6 @@ const FAQSection = () => {
               </a>
             </motion.div>
           )}
-          
         </motion.div>
       </div>
     </section>
