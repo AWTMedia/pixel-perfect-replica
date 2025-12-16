@@ -51,6 +51,9 @@
     --purple-soft: 270 100% 92%;
     --purple-electric: 267 100% 65%;
     --gray-soft: 270 20% 97%;
+
+    /* Helps anchor hash-links below fixed navbar */
+    scroll-padding-top: 7.5rem;
   }
 
   .dark {
@@ -89,9 +92,28 @@
     @apply border-border;
   }
 
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: "Inter", sans-serif;
+  }
+
+  /* Prevent random horizontal overflow on mobile (glows, transforms, etc.) */
+  body,
+  #root {
+    overflow-x: clip;
+  }
+
+  /* Make media behave nicely on mobile by default */
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+    height: auto;
   }
 
   h1,
@@ -101,6 +123,11 @@
   h5,
   h6 {
     @apply font-bold tracking-tight;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 }
 
@@ -152,5 +179,10 @@
       radial-gradient(900px 500px at 20% 10%, rgba(157, 75, 255, 0.35), transparent 60%),
       radial-gradient(900px 500px at 80% 20%, rgba(106, 0, 244, 0.35), transparent 60%),
       linear-gradient(180deg, #6A00F4 0%, #4B00C9 55%, #2A0076 100%);
+  }
+
+  /* ✅ One class to “center on mobile” globally (opt-out per section if needed) */
+  .mobile-center {
+    @apply text-center md:text-left;
   }
 }
